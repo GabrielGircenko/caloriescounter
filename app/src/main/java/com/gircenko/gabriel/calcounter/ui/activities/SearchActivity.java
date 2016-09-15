@@ -1,4 +1,4 @@
-package com.gircenko.gabriel.calcounter.ui;
+package com.gircenko.gabriel.calcounter.ui.activities;
 
 import android.support.v7.app.AppCompatActivity;
 

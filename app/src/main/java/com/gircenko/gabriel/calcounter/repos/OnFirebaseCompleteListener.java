@@ -1,4 +1,4 @@
-package com.gircenko.gabriel.calcounter.firebase;
+package com.gircenko.gabriel.calcounter.repos;
 
 /**
  * Created by Gabriel Gircenko on 15-Sep-16.

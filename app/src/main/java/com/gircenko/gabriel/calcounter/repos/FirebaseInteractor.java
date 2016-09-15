@@ -1,4 +1,4 @@
-package com.gircenko.gabriel.calcounter.firebase;
+package com.gircenko.gabriel.calcounter.repos;
 
 import android.support.annotation.NonNull;
 

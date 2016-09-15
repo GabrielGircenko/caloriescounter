@@ -10,53 +10,53 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:label="Login"></activity>
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.SignUpActivity"
+            android:name=".ui.activities.SignUpActivity"
             android:label="Sign Up"
-            android:parentActivityName=".ui.LoginActivity">
+            android:parentActivityName=".ui.activities.LoginActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.LoginActivity" />
+                android:value=".ui.activities.LoginActivity" />
         </activity>
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.activities.SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".ui.MainActivity">
+            android:parentActivityName=".ui.activities.MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.SearchActivity"
+            android:name=".ui.activities.SearchActivity"
             android:label="Search"
-            android:parentActivityName=".ui.MainActivity">
+            android:parentActivityName=".ui.activities.MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.EditMealActivity"
+            android:name=".ui.activities.EditMealActivity"
             android:label="Edit Meal"
-            android:parentActivityName=".ui.MainActivity">
+            android:parentActivityName=".ui.activities.MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
     </application>
 

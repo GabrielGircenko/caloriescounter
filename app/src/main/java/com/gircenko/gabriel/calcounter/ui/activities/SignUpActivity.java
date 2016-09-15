@@ -1,19 +1,13 @@
-package com.gircenko.gabriel.calcounter.ui;
+package com.gircenko.gabriel.calcounter.ui.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.widget.Toast;
 
 import com.gircenko.gabriel.calcounter.R;
 import com.gircenko.gabriel.calcounter.signup.ISignupView;
 import com.gircenko.gabriel.calcounter.signup.SignupPresenter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
