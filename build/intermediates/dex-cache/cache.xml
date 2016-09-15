@@ -1,3 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\StudioProjects\CalCounter\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database\9.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.1"
+        sha1="84bf369090a8f7e293817efbd6ccf31ada1be32b">
+        <dex dex="C:\StudioProjects\CalCounter\app\build\intermediates\pre-dexed\debug\com.google.firebase-firebase-database-9.4.0_e9d333e1348bd4b7c0d300a89d98d6007ff1b10a.jar" />
+    </item>
+    <item
+        jar="C:\StudioProjects\CalCounter\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database-connection\9.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.1"
+        sha1="0e4d53465cc141bec58f18a894e4c4e80633fa32">
+        <dex dex="C:\StudioProjects\CalCounter\app\build\intermediates\pre-dexed\debug\com.google.firebase-firebase-database-connection-9.4.0_6ed36240cfc49a056ea3e7d7711f56af59d21b26.jar" />
+    </item>
+
+</items>
