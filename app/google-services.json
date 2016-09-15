@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "437263325038",
+    "firebase_url": "https://calcounter-7fafc.firebaseio.com",
+    "project_id": "calcounter-7fafc",
+    "storage_bucket": "calcounter-7fafc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437263325038:android:bbd23b65f7291822",
+        "android_client_info": {
+          "package_name": "com.gircenko.gabriel.calcounter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437263325038-sggtbs7cv2hbgpiub7aj14810rvs1cnn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3dKFX8G8mTd4fsgBWs1Qg5Y4wysO7Y9A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
