@@ -8,15 +8,15 @@ import com.gircenko.gabriel.calcounter.R;
 import butterknife.ButterKnife;
 
 /**
- * Created by Gabriel Gircenko on 14-Sep-16.
+ * Created by Gabriel Gircenko on 15-Sep-16.
  */
-public class SettingsActivity extends AppCompatActivity {
+public class UserListActivity extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_user_list);
 
         ButterKnife.bind(this);
     }
