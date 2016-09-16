@@ -1,7 +1,7 @@
 package com.gircenko.gabriel.calcounter.signup;
 
-import com.gircenko.gabriel.calcounter.repos.FirebaseInteractor;
-import com.gircenko.gabriel.calcounter.repos.OnFirebaseCompleteListener;
+import com.gircenko.gabriel.calcounter.repos.firebase.FirebaseInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.OnFirebaseCompleteListener;
 
 /**
  * Created by Gabriel Gircenko on 15-Sep-16.

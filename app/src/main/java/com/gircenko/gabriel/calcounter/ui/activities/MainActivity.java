@@ -2,24 +2,32 @@ package com.gircenko.gabriel.calcounter.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.gircenko.gabriel.calcounter.Constants;
 import com.gircenko.gabriel.calcounter.R;
+import com.gircenko.gabriel.calcounter.caloriesFragment.OnCaloriesFragmentListener;
 import com.gircenko.gabriel.calcounter.main.IMainView;
 import com.gircenko.gabriel.calcounter.main.MainPresenter;
+import com.gircenko.gabriel.calcounter.ui.adapters.CaloriesPagerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by Gabriel Gircenko on 13-Sep-16.
  */
-public class MainActivity extends AppCompatActivity implements IMainView {
+public class MainActivity extends AppCompatActivity implements IMainView, OnCaloriesFragmentListener {
 
-    protected FirebaseAuth firebaseAuth;
+    @BindView(R.id.vp_calories)
+    ViewPager vp_calories;
+
+    private FirebaseAuth firebaseAuth;
 
     MainPresenter presenter;
 
@@ -27,16 +35,14 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        }
-
         ButterKnife.bind(this);
 
         presenter = new MainPresenter(this);
+        presenter.validateCurrentUser();
+
+        CaloriesPagerAdapter adapter = new CaloriesPagerAdapter(getSupportFragmentManager());
+        vp_calories.setAdapter(adapter);
+        vp_calories.setCurrentItem(6);  // sets last day as default
     }
 
     @Override
@@ -57,9 +63,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
                 return true;
 
             case R.id.action_logout:
-                firebaseAuth.signOut();
-                finish();
-                startActivity(new Intent(this, LoginActivity.class));
+                logoutClicked();
                 return true;
 
             default:
@@ -68,7 +72,27 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     }
 
     @OnClick(R.id.fab)
-    public void fab() {
+    @Override
+    public void fabClicked() {
         startActivity(new Intent(this, EditMealActivity.class));
+    }
+
+    @Override
+    public void logoutClicked() {
+        presenter.signOut();
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    @Override
+    public void userNotLoggedInGoToLogin() {
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    @Override
+    public void goToMealListActivity(String date) {
+        // TODO finish
+        startActivity(new Intent(this, MealListActivity.class));
     }
 }

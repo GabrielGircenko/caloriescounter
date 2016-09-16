@@ -22,7 +22,6 @@ public class LoginActivity extends CredentialsActivity implements ILoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         ButterKnife.bind(this);
 
         presenter = new LoginPresenter(this);

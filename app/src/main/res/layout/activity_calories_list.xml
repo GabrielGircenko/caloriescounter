@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
-    tools:context=".ui.activities.CaloriesListActivity">
+    tools:context=".ui.activities.MealListActivity">
 
     <ListView
-        android:id="@+id/lv_calories_list"
+        android:id="@+id/lv_meal_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/divider"

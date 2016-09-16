@@ -29,6 +29,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:enabled="false" />
+        android:enabled="false"
+        android:hint="Date"/>
+
+    <EditText
+        android:id="@+id/et_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:enabled="false"
+        android:hint="Time"/>
 
 </LinearLayout>
