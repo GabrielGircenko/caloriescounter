@@ -1,7 +1,10 @@
 package com.gircenko.gabriel.calcounter.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -54,6 +57,27 @@ public class EditMealActivity extends AppCompatActivity implements IEditMealView
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_meal, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                // TODO
+                return true;
+
+            case R.id.action_save:
+                // TODO
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void setEditDate(String date) {

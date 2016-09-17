@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.gircenko.gabriel.calcounter.Constants;
 import com.gircenko.gabriel.calcounter.R;
 import com.gircenko.gabriel.calcounter.caloriesFragment.OnCaloriesFragmentListener;
 import com.gircenko.gabriel.calcounter.main.IMainView;
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
