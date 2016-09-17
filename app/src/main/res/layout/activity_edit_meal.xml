@@ -28,16 +28,16 @@
         android:id="@+id/et_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:enabled="false"
-        android:hint="Date"/>
+        android:enabled="true"
+        android:focusable="false"
+        android:hint="Date" />
 
     <EditText
         android:id="@+id/et_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:enabled="false"
-        android:hint="Time"/>
+        android:enabled="true"
+        android:focusable="false"
+        android:hint="Time" />
 
 </LinearLayout>

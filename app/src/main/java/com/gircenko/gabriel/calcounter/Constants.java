@@ -9,5 +9,5 @@ public class Constants {
 
     public static final String DATE_FORMAT = "dd.MM.yy.";
     public static final String TIME_FORMAT = "HH:mm";
-    public static final String DATE_TIME_FORMAT = "dd.MM.yy. HH:mm";
+    public static final String DATE_TIME_FORMAT = "dd.MM.yy.'T'HH:mm";
 }

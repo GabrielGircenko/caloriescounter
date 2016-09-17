@@ -12,6 +12,7 @@ import com.gircenko.gabriel.calcounter.editMeal.IEditMealView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Gabriel Gircenko on 14-Sep-16.
@@ -39,9 +40,14 @@ public class EditMealActivity extends AppCompatActivity implements IEditMealView
 
         presenter = new EditMealPresenter(this);
 
-        String date = savedInstanceState.getString(Constants.BUNDLE_KEY_DATE);
-        if (date != null) {
+        String date = null;
 
+        if (savedInstanceState != null) {
+            savedInstanceState.getString(Constants.BUNDLE_KEY_DATE);
+        }
+
+        if (date != null) {
+            // TODO
 
         } else {
             presenter.intializeDateModel();
@@ -49,4 +55,23 @@ public class EditMealActivity extends AppCompatActivity implements IEditMealView
     }
 
 
+    @Override
+    public void setEditDate(String date) {
+        et_date.setText(date);
+    }
+
+    @Override
+    public void setEditTime(String time) {
+        et_time.setText(time);
+    }
+
+    @OnClick(R.id.et_date)
+    public void onDateClicked() {
+        presenter.editDate(this);
+    }
+
+    @OnClick(R.id.et_time)
+    public void onTimeClicked() {
+        presenter.editTime(this);
+    }
 }
