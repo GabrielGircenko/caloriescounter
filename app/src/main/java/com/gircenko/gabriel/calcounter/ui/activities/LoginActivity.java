@@ -22,7 +22,7 @@ public class LoginActivity extends ActivityWithProgressDialog implements ILoginV
     public static final int REQUEST_SIGNUP = 101;
     public static final int SIGNED_UP = 201;
 
-    LoginPresenter presenter;
+    private LoginPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

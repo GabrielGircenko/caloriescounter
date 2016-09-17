@@ -23,7 +23,7 @@ public class SignUpActivity extends ActivityWithProgressDialog implements ISignu
     @BindView(R.id.et_password)
     EditText et_password;
 
-    SignupPresenter presenter;
+    private SignupPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

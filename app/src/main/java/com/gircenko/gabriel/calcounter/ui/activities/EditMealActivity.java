@@ -31,7 +31,7 @@ public class EditMealActivity extends ActivityWithProgressDialog implements IEdi
     @BindView(R.id.et_time)
     protected EditText et_time;
 
-    EditMealPresenter presenter;
+    private EditMealPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

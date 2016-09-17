@@ -10,7 +10,7 @@ import com.gircenko.gabriel.calcounter.models.MealModel;
 import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.datePicker.DatePickerInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
-import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseDataInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.OnEditMealListener;
 import com.gircenko.gabriel.calcounter.repos.timePicker.TimePickerInteractor;
 
@@ -23,7 +23,7 @@ public class EditMealPresenter implements IEditMealPresenter,
 
     IEditMealView view;
     FirebaseAuthInteractor firebaseAuthInteractor;
-    FirebaseInteractor firebaseInteractor;
+    FirebaseDataInteractor firebaseDataInteractor;
     CalendarInteractor calendarInteractor;
     DatePickerInteractor datePickerInteractor;
     TimePickerInteractor timePickerInteractor;
@@ -33,7 +33,7 @@ public class EditMealPresenter implements IEditMealPresenter,
         this.view = view;
         this.calendarInteractor = new CalendarInteractor();
         this.firebaseAuthInteractor = new FirebaseAuthInteractor();
-        this.firebaseInteractor = new FirebaseInteractor();
+        this.firebaseDataInteractor = new FirebaseDataInteractor();
         this.mealModel = new MealModel();
     }
 
@@ -88,7 +88,7 @@ public class EditMealPresenter implements IEditMealPresenter,
         mealModel.setCalories(Integer.valueOf(calories));
         mealModel.setDate(date + "T" + time);
 
-        firebaseInteractor.saveMeal(mealModel, this);
+        firebaseDataInteractor.saveMeal(mealModel, this);
     }
 
     @Override

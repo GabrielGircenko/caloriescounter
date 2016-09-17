@@ -7,4 +7,5 @@ public interface IMainPresenter {
 
     void validateCurrentUser();
     void signOut();
+    void getMealsByCurrentUser();
 }

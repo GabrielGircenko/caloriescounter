@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
 
     private FirebaseAuth firebaseAuth;
 
-    MainPresenter presenter;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +38,6 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
 
         presenter = new MainPresenter(this);
         presenter.validateCurrentUser();
-
-        CaloriesPagerAdapter adapter = new CaloriesPagerAdapter(getSupportFragmentManager());
-        vp_calories.setAdapter(adapter);
-        vp_calories.setCurrentItem(6);  // sets last day as default
     }
 
     @Override
@@ -81,6 +77,15 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
         presenter.signOut();
         finish();
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    @Override
+    public void userLoggedIn() {
+        presenter.getMealsByCurrentUser();
+
+        CaloriesPagerAdapter adapter = new CaloriesPagerAdapter(getSupportFragmentManager());
+        vp_calories.setAdapter(adapter);
+        vp_calories.setCurrentItem(6);  // sets last day as default
     }
 
     @Override

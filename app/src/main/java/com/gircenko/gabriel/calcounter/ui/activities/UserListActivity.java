@@ -12,7 +12,6 @@ import butterknife.ButterKnife;
  */
 public class UserListActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

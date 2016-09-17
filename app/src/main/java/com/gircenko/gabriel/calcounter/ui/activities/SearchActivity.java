@@ -14,7 +14,6 @@ import butterknife.ButterKnife;
  */
 public class SearchActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

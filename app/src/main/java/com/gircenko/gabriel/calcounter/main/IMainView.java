@@ -5,6 +5,7 @@ package com.gircenko.gabriel.calcounter.main;
  */
 public interface IMainView {
 
+    void userLoggedIn();
     void userNotLoggedInGoToLogin();
     void fabClicked();
     void logoutClicked();
