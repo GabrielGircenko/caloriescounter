@@ -13,7 +13,9 @@
         <activity
             android:name=".ui.activities.LoginActivity"
             android:label="Login"></activity>
-        <activity android:name=".ui.activities.MainActivity">
+        <activity
+            android:name=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,7 +24,8 @@
         <activity
             android:name=".ui.activities.SignUpActivity"
             android:label="Sign Up"
-            android:parentActivityName=".ui.activities.LoginActivity">
+            android:parentActivityName=".ui.activities.LoginActivity"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -32,7 +35,8 @@
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".ui.activities.MainActivity">
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -42,7 +46,8 @@
         <activity
             android:name=".ui.activities.SearchActivity"
             android:label="Search"
-            android:parentActivityName=".ui.activities.MainActivity">
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -52,7 +57,8 @@
         <activity
             android:name=".ui.activities.EditMealActivity"
             android:label="Edit Meal"
-            android:parentActivityName=".ui.activities.MainActivity">
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
