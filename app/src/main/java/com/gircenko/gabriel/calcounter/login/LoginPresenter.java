@@ -1,19 +1,19 @@
 package com.gircenko.gabriel.calcounter.login;
 
-import com.gircenko.gabriel.calcounter.repos.firebase.FirebaseInteractor;
-import com.gircenko.gabriel.calcounter.repos.firebase.OnFirebaseCompleteListener;
+import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.authentication.OnFirebaseAuthCompleteListener;
 
 /**
  * Created by Gabriel Gircenko on 15-Sep-16.
  */
-public class LoginPresenter implements ILoginPresenter, OnFirebaseCompleteListener {
+public class LoginPresenter implements ILoginPresenter, OnFirebaseAuthCompleteListener {
 
     private ILoginView view;
-    private FirebaseInteractor interactor;
+    private FirebaseAuthInteractor interactor;
 
     public LoginPresenter(ILoginView view) {
         this.view = view;
-        this.interactor = new FirebaseInteractor();
+        this.interactor = new FirebaseAuthInteractor();
     }
 
     @Override

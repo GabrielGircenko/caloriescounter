@@ -6,26 +6,35 @@ import android.content.Context;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import com.gircenko.gabriel.calcounter.models.MealModel;
 import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.datePicker.DatePickerInteractor;
-import com.gircenko.gabriel.calcounter.repos.firebase.FirebaseInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.database.OnEditMealListener;
 import com.gircenko.gabriel.calcounter.repos.timePicker.TimePickerInteractor;
 
 /**
  * Created by Gabriel Gircenko on 16-Sep-16.
  */
-public class EditMealPresenter implements IEditMealPresenter, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class EditMealPresenter implements IEditMealPresenter,
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,
+        OnEditMealListener {
 
     IEditMealView view;
+    FirebaseAuthInteractor firebaseAuthInteractor;
     FirebaseInteractor firebaseInteractor;
     CalendarInteractor calendarInteractor;
     DatePickerInteractor datePickerInteractor;
     TimePickerInteractor timePickerInteractor;
+    MealModel mealModel;
 
     public EditMealPresenter(IEditMealView view) {
         this.view = view;
         this.calendarInteractor = new CalendarInteractor();
+        this.firebaseAuthInteractor = new FirebaseAuthInteractor();
         this.firebaseInteractor = new FirebaseInteractor();
+        this.mealModel = new MealModel();
     }
 
     /**{@inheritDoc}*/
@@ -62,6 +71,31 @@ public class EditMealPresenter implements IEditMealPresenter, DatePickerDialog.O
         timePickerInteractor.showDialog();
     }
 
+    @Override
+    public void attemptToSaveMeal(String user, String description, String calories, String date, String time) {
+        if (calories.isEmpty() || date.isEmpty() || time.isEmpty()) {
+            view.onMealSaveFailedDueToIncorrectInput();
+            return;
+        }
+
+        if (user.isEmpty()) {
+            mealModel.setUserId(firebaseAuthInteractor.getCurrentUserId());
+
+        } else {
+            mealModel.setUserId(user);
+        }
+        mealModel.setDescription(description);
+        mealModel.setCalories(Integer.valueOf(calories));
+        mealModel.setDate(date + "T" + time);
+
+        firebaseInteractor.saveMeal(mealModel, this);
+    }
+
+    @Override
+    public void attemptToDeleteMeal() {
+        // TODO
+    }
+
     private void setEditDateTime() {
         view.setEditDate(calendarInteractor.getDate());
         view.setEditTime(calendarInteractor.getTime());
@@ -77,5 +111,17 @@ public class EditMealPresenter implements IEditMealPresenter, DatePickerDialog.O
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         calendarInteractor.setTime(hour, minute);
         view.setEditTime(calendarInteractor.getTime());
+    }
+
+    @Override
+    public void onSaveSuccess(boolean success) {
+        if (success) view.onMealSaveSuccessful();
+        else view.onMealSaveFailed();
+    }
+
+    @Override
+    public void onDeleteSuccess(boolean success) {
+        if (success) view.onMealDeleteSuccessful();
+        else view.onMealDeleteFailed();
     }
 }

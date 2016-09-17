@@ -18,4 +18,8 @@ public interface IEditMealPresenter {
     void editDate(Context context);
 
     void editTime(Context context);
+
+    void attemptToSaveMeal(String user, String description, String calories, String date, String time);
+
+    void attemptToDeleteMeal();
 }

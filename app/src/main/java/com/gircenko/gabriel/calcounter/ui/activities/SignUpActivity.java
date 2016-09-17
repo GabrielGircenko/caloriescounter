@@ -3,19 +3,25 @@ package com.gircenko.gabriel.calcounter.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import com.gircenko.gabriel.calcounter.R;
 import com.gircenko.gabriel.calcounter.signup.ISignupView;
 import com.gircenko.gabriel.calcounter.signup.SignupPresenter;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by Gabriel Gircenko on 13-Sep-16.
  */
-public class SignUpActivity extends CredentialsActivity implements ISignupView {
+public class SignUpActivity extends ActivityWithProgressDialog implements ISignupView {
+
+    @BindView(R.id.et_email)
+    EditText et_email;
+    @BindView(R.id.et_password)
+    EditText et_password;
 
     SignupPresenter presenter;
 
@@ -34,8 +40,7 @@ public class SignUpActivity extends CredentialsActivity implements ISignupView {
     @OnClick(R.id.btn_signup)
     @Override
     public void signupTapped() {
-        progressDialog.setMessage("Signing up... Please, wait.");
-        progressDialog.show();
+        showProgressDialog("Signing up... Please, wait.");
 
         String email = et_email.getText().toString().trim();
         String password = et_password.getText().toString().trim();
@@ -45,21 +50,17 @@ public class SignUpActivity extends CredentialsActivity implements ISignupView {
 
     @Override
     public void credentialsWrong() {
-        progressDialog.dismiss();
-        Toast.makeText(this, "Please, fill all fields", Toast.LENGTH_SHORT).show();
+        dismissProgressDialogAndShowToast("Please, fill all fields");
     }
 
     @Override
     public void signupFailed() {
-        progressDialog.dismiss();
-        Toast.makeText(SignUpActivity.this, "Couldn't sign up the user. Please, try again.", Toast.LENGTH_SHORT).show();
+        dismissProgressDialogAndShowToast("Couldn't sign up the user. Please, try again.");
     }
 
     @Override
     public void signupSuccessAndNavigateToMainActivity() {
-        progressDialog.dismiss();
-
-        Toast.makeText(SignUpActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+        dismissProgressDialogAndShowToast("Sign up successful");
 
         setResult(LoginActivity.SIGNED_UP, null);
         finish();

@@ -1,6 +1,6 @@
 package com.gircenko.gabriel.calcounter.main;
 
-import com.gircenko.gabriel.calcounter.repos.firebase.FirebaseInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
 
 /**
  * Created by Gabriel Gircenko on 15-Sep-16.
@@ -8,11 +8,11 @@ import com.gircenko.gabriel.calcounter.repos.firebase.FirebaseInteractor;
 public class MainPresenter implements IMainPresenter {
 
     IMainView view;
-    FirebaseInteractor interactor;
+    FirebaseAuthInteractor interactor;
 
     public MainPresenter(IMainView view) {
         this.view = view;
-        this.interactor = new FirebaseInteractor();
+        this.interactor = new FirebaseAuthInteractor();
     }
 
     @Override

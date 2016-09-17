@@ -1,8 +1,6 @@
 package com.gircenko.gabriel.calcounter.ui.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -20,7 +18,7 @@ import butterknife.OnClick;
 /**
  * Created by Gabriel Gircenko on 14-Sep-16.
  */
-public class EditMealActivity extends AppCompatActivity implements IEditMealView {
+public class EditMealActivity extends ActivityWithProgressDialog implements IEditMealView {
 
     @BindView(R.id.sp_user)
     protected Spinner sp_user;
@@ -67,11 +65,18 @@ public class EditMealActivity extends AppCompatActivity implements IEditMealView
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                // TODO
+                showProgressDialog("Deleting... Please, wait.");
+                presenter.attemptToDeleteMeal();
                 return true;
 
             case R.id.action_save:
-                // TODO
+                showProgressDialog("Saving... Please, wait.");
+//                String user = sp_user.getSelectedItem().toString();
+                String description = et_description.getText().toString();
+                String calories = et_calories.getText().toString();
+                String date = et_date.getText().toString();
+                String time = et_time.getText().toString();
+                presenter.attemptToSaveMeal("", description, calories, date, time);
                 return true;
 
             default:
@@ -87,6 +92,33 @@ public class EditMealActivity extends AppCompatActivity implements IEditMealView
     @Override
     public void setEditTime(String time) {
         et_time.setText(time);
+    }
+
+    @Override
+    public void onMealSaveSuccessful() {
+        dismissProgressDialogAndShowToast("Save successful.");
+        finish();
+    }
+
+    @Override
+    public void onMealSaveFailed() {
+        dismissProgressDialogAndShowToast("Save failed. Please, try again.");
+    }
+
+    @Override
+    public void onMealSaveFailedDueToIncorrectInput() {
+        dismissProgressDialogAndShowToast("Please, fill all fields");
+    }
+
+    @Override
+    public void onMealDeleteSuccessful() {
+        dismissProgressDialogAndShowToast("Delete successful.");
+        finish();
+    }
+
+    @Override
+    public void onMealDeleteFailed() {
+        dismissProgressDialogAndShowToast("Delete failed. Please, try again.");
     }
 
     @OnClick(R.id.et_date)

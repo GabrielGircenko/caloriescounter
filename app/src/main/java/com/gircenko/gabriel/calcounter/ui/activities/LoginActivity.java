@@ -2,16 +2,22 @@ package com.gircenko.gabriel.calcounter.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import com.gircenko.gabriel.calcounter.R;
 import com.gircenko.gabriel.calcounter.login.ILoginView;
 import com.gircenko.gabriel.calcounter.login.LoginPresenter;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends CredentialsActivity implements ILoginView {
+public class LoginActivity extends ActivityWithProgressDialog implements ILoginView {
+
+    @BindView(R.id.et_email)
+    EditText et_email;
+    @BindView(R.id.et_password)
+    EditText et_password;
 
     public static final int REQUEST_SIGNUP = 101;
     public static final int SIGNED_UP = 201;
@@ -37,8 +43,7 @@ public class LoginActivity extends CredentialsActivity implements ILoginView {
     @OnClick(R.id.btn_login)
     @Override
     public void loginTapped() {
-        progressDialog.setMessage("Logging in... Please, wait.");
-        progressDialog.show();
+        showProgressDialog("Logging in... Please, wait.");
 
         String email = et_email.getText().toString().trim();
         String password = et_password.getText().toString().trim();
@@ -48,26 +53,20 @@ public class LoginActivity extends CredentialsActivity implements ILoginView {
 
     @Override
     public void credentialsWrong() {
-        progressDialog.dismiss();
-
-        Toast.makeText(this, "Please, fill all fields", Toast.LENGTH_SHORT).show();
+        dismissProgressDialogAndShowToast("Please, fill all fields");
     }
 
     @Override
     public void loginFailed() {
-        progressDialog.dismiss();
-
-        Toast.makeText(LoginActivity.this, "Couldn't login. Please, try again.", Toast.LENGTH_SHORT).show();
+        dismissProgressDialogAndShowToast("Couldn't login. Please, try again.");
     }
 
     @Override
     public void loginSuccessAndNavigateToMainActivity() {
-        progressDialog.dismiss();
+        dismissProgressDialogAndShowToast("Login successful");
 
         finish();
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.tv_signup)

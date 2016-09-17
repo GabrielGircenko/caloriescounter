@@ -7,4 +7,9 @@ public interface IEditMealView {
 
     void setEditDate(String date);
     void setEditTime(String time);
+    void onMealSaveSuccessful();
+    void onMealSaveFailed();
+    void onMealSaveFailedDueToIncorrectInput();
+    void onMealDeleteSuccessful();
+    void onMealDeleteFailed();
 }

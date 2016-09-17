@@ -1,19 +1,19 @@
 package com.gircenko.gabriel.calcounter.signup;
 
-import com.gircenko.gabriel.calcounter.repos.firebase.FirebaseInteractor;
-import com.gircenko.gabriel.calcounter.repos.firebase.OnFirebaseCompleteListener;
+import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.authentication.OnFirebaseAuthCompleteListener;
 
 /**
  * Created by Gabriel Gircenko on 15-Sep-16.
  */
-public class SignupPresenter implements ISignupPresenter, OnFirebaseCompleteListener {
+public class SignupPresenter implements ISignupPresenter, OnFirebaseAuthCompleteListener {
 
     private ISignupView view;
-    private FirebaseInteractor interactor;
+    private FirebaseAuthInteractor interactor;
 
     public SignupPresenter(ISignupView view) {
         this.view = view;
-        this.interactor = new FirebaseInteractor();
+        this.interactor = new FirebaseAuthInteractor();
     }
 
     @Override
