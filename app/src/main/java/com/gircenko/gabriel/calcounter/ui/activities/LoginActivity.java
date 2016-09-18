@@ -40,6 +40,7 @@ public class LoginActivity extends ActivityWithProgressDialog implements ILoginV
         }
     }
 
+    /**{@inheritDoc}*/
     @OnClick(R.id.btn_login)
     @Override
     public void loginTapped() {
@@ -51,16 +52,19 @@ public class LoginActivity extends ActivityWithProgressDialog implements ILoginV
         presenter.attemptLogin(email, password);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void credentialsWrong() {
         dismissProgressDialogAndShowToast("Please, fill all fields");
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void loginFailed() {
         dismissProgressDialogAndShowToast("Couldn't login. Please, try again.");
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void loginSuccessAndNavigateToMainActivity() {
         dismissProgressDialogAndShowToast("Login successful");
@@ -69,6 +73,7 @@ public class LoginActivity extends ActivityWithProgressDialog implements ILoginV
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
+    /**{@inheritDoc}*/
     @OnClick(R.id.tv_signup)
     @Override
     public void navigateToSignup() {

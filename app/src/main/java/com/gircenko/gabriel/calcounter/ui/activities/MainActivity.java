@@ -12,7 +12,7 @@ import com.gircenko.gabriel.calcounter.caloriesFragment.OnCaloriesFragmentListen
 import com.gircenko.gabriel.calcounter.main.IMainView;
 import com.gircenko.gabriel.calcounter.main.MainPresenter;
 import com.gircenko.gabriel.calcounter.ui.adapters.CaloriesPagerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
+import com.gircenko.gabriel.calcounter.ui.fragments.CaloriesFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,9 +26,8 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
     @BindView(R.id.vp_calories)
     ViewPager vp_calories;
 
-    private FirebaseAuth firebaseAuth;
-
     private MainPresenter presenter;
+    private CaloriesPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +65,14 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
         }
     }
 
+    /**{@inheritDoc}*/
     @OnClick(R.id.fab)
     @Override
     public void fabClicked() {
         startActivity(new Intent(this, EditMealActivity.class));
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void logoutClicked() {
         presenter.signOut();
@@ -80,20 +81,34 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
     }
 
     @Override
-    public void userLoggedIn() {
-        presenter.getMealsByCurrentUser();
-
-        CaloriesPagerAdapter adapter = new CaloriesPagerAdapter(getSupportFragmentManager());
-        vp_calories.setAdapter(adapter);
-        vp_calories.setCurrentItem(6);  // sets last day as default
+    public void applyTotalCalories(int page, String totalCalories) {
+        ((CaloriesFragment) adapter.getItem(page)).setTotalCalories(totalCalories);
     }
 
+    @Override
+    public void applyDate(int page, String date) {
+        ((CaloriesFragment) adapter.getItem(page)).setDate(date);
+    }
+
+    /**{@inheritDoc}*/
+    @Override
+    public void userLoggedIn() {
+        adapter = new CaloriesPagerAdapter(getSupportFragmentManager());
+        vp_calories.setAdapter(adapter);
+        vp_calories.setCurrentItem(CaloriesPagerAdapter.PAGE_COUNT - 1);  // sets last day as default
+
+        presenter.applyDatesToPages();
+        presenter.getMealsByCurrentUser();
+    }
+
+    /**{@inheritDoc}*/
     @Override
     public void userNotLoggedInGoToLogin() {
         finish();
         startActivity(new Intent(this, LoginActivity.class));
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void goToMealListActivity(String date) {
         // TODO finish

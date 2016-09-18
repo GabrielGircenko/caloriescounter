@@ -1,6 +1,7 @@
 package com.gircenko.gabriel.calcounter.ui.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,11 +29,12 @@ public class CaloriesFragment extends Fragment implements ICaloriesView {
     TextView tv_date;
     @BindView(R.id.tv_calories)
     TextView tv_calories;
-    @BindView(R.id.tv_empty)
-    TextView tv_empty;
 
-    CaloriesPresenter presenter;
-    OnCaloriesFragmentListener callback;
+    private CaloriesPresenter presenter;
+    private OnCaloriesFragmentListener callback;
+
+    private String date = null;
+    private String totalCalories = null;
 
     @Override
     public void onAttach(Context context) {
@@ -50,19 +52,45 @@ public class CaloriesFragment extends Fragment implements ICaloriesView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
 
         presenter = new CaloriesPresenter(this);
+
+        if (date != null && tv_date != null) {
+            tv_date.setText(date);
+        }
+
+        if (totalCalories != null && tv_calories != null) {
+            tv_calories.setText(String.valueOf(totalCalories));
+        }
     }
 
+    /**{@inheritDoc}*/
     @OnClick(R.id.rl_calories)
     @Override
     public void goToMealListClicked() {
         presenter.getDateAfterMealListClicked();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void goToMealList(String date) {
         callback.goToMealListActivity(date);
+    }
+
+    @Override
+    public void setDate(String date) {
+        this.date = date;
+        if (tv_date != null) {
+            tv_date.setText(date);
+        }
+    }
+
+    @Override
+    public void setTotalCalories(String totalCalories) {
+        this.totalCalories = totalCalories;
+        if (tv_calories != null) {
+            tv_calories.setText(totalCalories);
+        }
     }
 }

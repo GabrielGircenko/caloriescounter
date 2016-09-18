@@ -1,7 +1,10 @@
 package com.gircenko.gabriel.calcounter.repos.firebase.database;
 
+import android.util.Log;
+
 import com.firebase.client.Firebase;
 import com.gircenko.gabriel.calcounter.models.MealModel;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,13 +20,21 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
     FirebaseDatabase firebaseDatabase;
     private final String ROOT = "https://calcounter-7fafc.firebaseio.com/";
 
+    // tables
     private final String MEALS = "Meals";
     private final String EXPECTED = "ExpectedCal";
+
+    // fields
+    private final String DATE = "date";
+    private final String UID = "userId";
+
+    private final String TAG = "FirebaseDataInteractor";
 
     public FirebaseDataInteractor() {
          firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void saveMeal(MealModel meal, final OnEditMealListener listener) {
         DatabaseReference databaseReference = firebaseDatabase.getReference(MEALS);
@@ -35,16 +46,61 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
         });
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void deleteMeal(MealModel meal, OnEditMealListener listener) {
         // TODO
     }
 
+    /**{@inheritDoc}*/
     @Override
-    public void getMealsByUser(String userId) {
-        // TODO
+    public void getMealsByUser(String userId, final OnMealDataListener listener) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference(MEALS);
+//        databaseReference.orderByChild(UID).equalTo(userId).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Log.i(TAG, "onDataChange");
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.i(TAG, "onCancelled");
+//            }
+//        });
+        databaseReference.orderByChild(UID).equalTo(userId).addChildEventListener(new ChildEventListener() {
+//        Query query = databaseReference.equalTo(userId, UID);
+//        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.i(TAG, "onChildAdded");
+                listener.onGotNewMeal(dataSnapshot.getKey(), dataSnapshot.getValue(MealModel.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.i(TAG, "onChildChanged");
+                listener.onMealChanged(dataSnapshot.getKey(), dataSnapshot.getValue(MealModel.class));
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.i(TAG, "onChildRemoved");
+                listener.onMealRemoved(dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                Log.i(TAG, "onChildMoved");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i(TAG, "onCancelled");
+            }
+        });
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void saveExpectedCalories(String userId, int expectedCalories, final OnSaveExpectedCaloriesListener listener) {
         DatabaseReference databaseReference = firebaseDatabase.getReference(EXPECTED).child(userId);
@@ -56,6 +112,7 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
         });
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void getExpectedCalories(String userId, final OnExpectedCaloriesRetrievedListener listener) {
         DatabaseReference databaseReference = firebaseDatabase.getReference(EXPECTED).child(userId);

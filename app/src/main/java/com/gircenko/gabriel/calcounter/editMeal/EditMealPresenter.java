@@ -44,12 +44,14 @@ public class EditMealPresenter implements IEditMealPresenter,
         setEditDateTime();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void intializeDateModel() {
         calendarInteractor.initializeDateModel();
         setEditDateTime();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void editDate(Context context) {
         datePickerInteractor = new DatePickerInteractor(
@@ -57,10 +59,11 @@ public class EditMealPresenter implements IEditMealPresenter,
                 this,
                 calendarInteractor.getYear(),
                 calendarInteractor.getMonth(),
-                calendarInteractor.getDay());
+                calendarInteractor.getDAY());
         datePickerInteractor.showDialog();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void editTime(Context context) {
         timePickerInteractor = new TimePickerInteractor(
@@ -71,6 +74,7 @@ public class EditMealPresenter implements IEditMealPresenter,
         timePickerInteractor.showDialog();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void attemptToSaveMeal(String user, String description, String calories, String date, String time) {
         if (calories.isEmpty() || date.isEmpty() || time.isEmpty()) {
@@ -91,6 +95,7 @@ public class EditMealPresenter implements IEditMealPresenter,
         firebaseDataInteractor.saveMeal(mealModel, this);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void attemptToDeleteMeal() {
         // TODO
@@ -101,24 +106,28 @@ public class EditMealPresenter implements IEditMealPresenter,
         view.setEditTime(calendarInteractor.getTime());
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         calendarInteractor.setDate(year, month, day);
         view.setEditDate(calendarInteractor.getDate());
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         calendarInteractor.setTime(hour, minute);
         view.setEditTime(calendarInteractor.getTime());
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onSaveSuccess(boolean success) {
         if (success) view.onMealSaveSuccessful();
         else view.onMealSaveFailed();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onDeleteSuccess(boolean success) {
         if (success) view.onMealDeleteSuccessful();

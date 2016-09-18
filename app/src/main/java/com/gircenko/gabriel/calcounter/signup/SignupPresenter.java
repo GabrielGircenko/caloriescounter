@@ -16,6 +16,7 @@ public class SignupPresenter implements ISignupPresenter, OnFirebaseAuthComplete
         this.interactor = new FirebaseAuthInteractor();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void attemptSignup(String email, String password) {
         if (interactor.validatedCredentials(email, password)) {
@@ -26,11 +27,13 @@ public class SignupPresenter implements ISignupPresenter, OnFirebaseAuthComplete
         }
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onSuccess() {
         view.signupSuccessAndNavigateToMainActivity();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onFailed() {
         view.signupFailed();

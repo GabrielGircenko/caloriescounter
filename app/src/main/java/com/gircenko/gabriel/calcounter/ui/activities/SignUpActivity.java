@@ -37,6 +37,7 @@ public class SignUpActivity extends ActivityWithProgressDialog implements ISignu
         presenter = new SignupPresenter(this);
     }
 
+    /**{@inheritDoc}*/
     @OnClick(R.id.btn_signup)
     @Override
     public void signupTapped() {
@@ -48,16 +49,19 @@ public class SignUpActivity extends ActivityWithProgressDialog implements ISignu
         presenter.attemptSignup(email, password);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void credentialsWrong() {
         dismissProgressDialogAndShowToast("Please, fill all fields");
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void signupFailed() {
         dismissProgressDialogAndShowToast("Couldn't sign up the user. Please, try again.");
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void signupSuccessAndNavigateToMainActivity() {
         dismissProgressDialogAndShowToast("Sign up successful");

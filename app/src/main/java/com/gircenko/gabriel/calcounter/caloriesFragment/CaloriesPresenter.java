@@ -18,6 +18,7 @@ public class CaloriesPresenter implements ICaloriesPresenter {
         this.firebaseAuthInteractor = new FirebaseAuthInteractor();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void getDateAfterMealListClicked() {
         calendarInteractor.getDateTime();

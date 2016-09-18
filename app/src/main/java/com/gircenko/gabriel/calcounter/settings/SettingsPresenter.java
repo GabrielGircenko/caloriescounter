@@ -20,6 +20,7 @@ public class SettingsPresenter implements ISettingsPresenter, OnExpectedCalories
         this.firebaseAuthInteractor = new FirebaseAuthInteractor();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void saveExpectedCalories(String calories) {
         if (calories.isEmpty()) {
@@ -35,11 +36,13 @@ public class SettingsPresenter implements ISettingsPresenter, OnExpectedCalories
         }
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void getExpectedCalories() {
         firebaseDataInteractor.getExpectedCalories(firebaseAuthInteractor.getCurrentUserId(), this);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onExpectedCaloriesRetrieved(String expectedCalories) {
         view.setExpectedCalories(expectedCalories);

@@ -17,7 +17,20 @@ public interface ICalendarInteractor {
     String getDateTime();
     int getYear();
     int getMonth();
-    int getDay();
+    int getDAY();
     int getHour();
     int getMinute();
+
+    /**
+     * @param dateTime This is in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_TIME_FORMAT}
+     * @return 6 - if today, 5 - if yesterday, ... 0 - if 7 days before today. Negative value if error occurred or is not applicable.
+     */
+    int getDayInLastWeekByFullDate(String dateTime);
+
+    /**
+     *
+     * @param page Page number. 6 - if today, 5 - if yesterday, ... 0 - if 7 days before today.
+     * @return Date in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT}
+     */
+    String getDateByPage(int page);
 }

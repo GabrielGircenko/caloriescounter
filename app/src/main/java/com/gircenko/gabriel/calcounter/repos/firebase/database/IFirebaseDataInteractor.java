@@ -9,7 +9,7 @@ public interface IFirebaseDataInteractor {
 
     void saveMeal(MealModel meal, OnEditMealListener listener);
     void deleteMeal(MealModel meal, OnEditMealListener listener);
-    void getMealsByUser(String userId);
+    void getMealsByUser(String userId, OnMealDataListener listener);
     void saveExpectedCalories(String userId, int expectedCalories, OnSaveExpectedCaloriesListener listener);
     void getExpectedCalories(String userId, OnExpectedCaloriesRetrievedListener listener);
 }

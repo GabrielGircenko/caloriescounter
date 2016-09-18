@@ -54,11 +54,13 @@ public class SettingsActivity extends ActivityWithProgressDialog implements ISet
         }
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void wrongInput() {
         dismissProgressDialogAndShowToast("Please, enter expected calories.");
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onSuccess(boolean isSuccess) {
         if (isSuccess) {
@@ -70,6 +72,7 @@ public class SettingsActivity extends ActivityWithProgressDialog implements ISet
         }
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void setExpectedCalories(String expectedCalories) {
         et_expected_calories.setText(expectedCalories);

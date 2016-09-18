@@ -5,6 +5,7 @@ package com.gircenko.gabriel.calcounter;
  */
 public class Constants {
 
+    /** Format of the String value is {@link Constants#DATE_TIME_FORMAT} */
     public static final String BUNDLE_KEY_DATE = "BUNDLE_KEY_DATE";
 
     public static final String DATE_FORMAT = "dd.MM.yy.";

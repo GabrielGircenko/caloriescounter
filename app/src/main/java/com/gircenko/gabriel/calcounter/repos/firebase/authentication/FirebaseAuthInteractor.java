@@ -19,11 +19,13 @@ public class FirebaseAuthInteractor implements IFirebaseAuthInteractor {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public boolean validatedCredentials(String email, String password) {
         return !email.isEmpty() && !password.isEmpty();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void loginWithCredentials(final OnFirebaseAuthCompleteListener listener, String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -35,6 +37,7 @@ public class FirebaseAuthInteractor implements IFirebaseAuthInteractor {
         });
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void signupWithCredentials(final OnFirebaseAuthCompleteListener listener, String email, String password) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -46,16 +49,19 @@ public class FirebaseAuthInteractor implements IFirebaseAuthInteractor {
         });
     }
 
+    /**{@inheritDoc}*/
     @Override
     public boolean isCurrentUserExisting() {
         return firebaseAuth.getCurrentUser() != null;
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void signOut() {
         firebaseAuth.signOut();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public String getCurrentUserId() {
         return firebaseAuth.getCurrentUser().getUid();

@@ -84,38 +84,45 @@ public class EditMealActivity extends ActivityWithProgressDialog implements IEdi
         }
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void setEditDate(String date) {
         et_date.setText(date);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void setEditTime(String time) {
         et_time.setText(time);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onMealSaveSuccessful() {
         dismissProgressDialogAndShowToast("Save successful.");
         finish();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onMealSaveFailed() {
         dismissProgressDialogAndShowToast("Save failed. Please, try again.");
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onMealSaveFailedDueToIncorrectInput() {
         dismissProgressDialogAndShowToast("Please, fill all fields");
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onMealDeleteSuccessful() {
         dismissProgressDialogAndShowToast("Delete successful.");
         finish();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onMealDeleteFailed() {
         dismissProgressDialogAndShowToast("Delete failed. Please, try again.");

@@ -7,7 +7,7 @@ public class MealModel {
 
     private String userId;
     private String description;
-    private int calories;
+    private long calories;
     /** In {@link com.gircenko.gabriel.calcounter.Constants#DATE_TIME_FORMAT} */
     private String date;
 
@@ -29,11 +29,11 @@ public class MealModel {
         this.description = description;
     }
 
-    public int getCalories() {
+    public long getCalories() {
         return calories;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(long calories) {
         this.calories = calories;
     }
 

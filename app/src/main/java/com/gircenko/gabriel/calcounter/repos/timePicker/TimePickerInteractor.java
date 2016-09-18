@@ -15,6 +15,7 @@ public class TimePickerInteractor implements ITimePickerInteractor {
         dialog = new TimePickerDialog(context, listener, hour, minute, true);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void showDialog() {
         dialog.show();

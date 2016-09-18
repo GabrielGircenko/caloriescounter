@@ -26,17 +26,13 @@ public class LoginPresenter implements ILoginPresenter, OnFirebaseAuthCompleteLi
         }
     }
 
-    /*@Override
-    public void loginComplete(boolean isSuccess) {
-        if (isSuccess) view.loginSuccessAndNavigateToMainActivity();
-        else view.loginFailed();
-    }*/
-
+    /**{@inheritDoc}*/
     @Override
     public void onSuccess() {
         view.loginSuccessAndNavigateToMainActivity();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onFailed() {
         view.loginFailed();

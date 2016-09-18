@@ -20,6 +20,7 @@ public abstract class ActivityWithProgressDialog extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
+    /**{@inheritDoc}*/
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
