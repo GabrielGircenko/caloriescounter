@@ -33,4 +33,11 @@ public interface ICalendarInteractor {
      * @return Date in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT}
      */
     String getDateByPage(int page);
+
+    /**
+     *
+     * @param dateTime In a format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_TIME_FORMAT}
+     * @return Date in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT}
+     */
+    String cutDateTimeToDate(String dateTime);
 }

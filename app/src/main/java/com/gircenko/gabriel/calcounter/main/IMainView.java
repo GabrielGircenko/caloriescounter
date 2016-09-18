@@ -9,6 +9,6 @@ public interface IMainView {
     void userNotLoggedInGoToLogin();
     void fabClicked();
     void logoutClicked();
-    void applyTotalCalories(int page, String totalCalories);
+    void addToTotalCalories(int page, String totalCalories);
     void applyDate(int page, String date);
 }

@@ -8,19 +8,17 @@ import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAut
  */
 public class CaloriesPresenter implements ICaloriesPresenter {
 
-    ICaloriesView view;
-    CalendarInteractor calendarInteractor;
-    FirebaseAuthInteractor firebaseAuthInteractor;
+    private ICaloriesView view;
+    private CalendarInteractor calendarInteractor;
 
     public CaloriesPresenter(ICaloriesView view) {
         this.view = view;
         this.calendarInteractor = new CalendarInteractor();
-        this.firebaseAuthInteractor = new FirebaseAuthInteractor();
     }
 
     /**{@inheritDoc}*/
     @Override
-    public void getDateAfterMealListClicked() {
+    public void gatherMealsAfterMealListClicked() {
         calendarInteractor.getDateTime();
     }
 }

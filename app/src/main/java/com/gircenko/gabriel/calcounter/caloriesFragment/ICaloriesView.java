@@ -5,13 +5,8 @@ package com.gircenko.gabriel.calcounter.caloriesFragment;
  */
 public interface ICaloriesView {
 
-    void goToMealListClicked();
-
-    /** @param date Format of the value is {@link com.gircenko.gabriel.calcounter.Constants#DATE_TIME_FORMAT} */
-    void goToMealList(String date);
-
     /** @param date Format of the value is {@link com.gircenko.gabriel.calcounter.Constants#DATE_TIME_FORMAT} */
     void setDate(String date);
 
-    void setTotalCalories(String caloriesAtDate);
+    void addToTotalCalories(String caloriesAtDate);
 }

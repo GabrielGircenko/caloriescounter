@@ -166,6 +166,11 @@ public class CalendarInteractor implements ICalendarInteractor {
         return sdf.format(date.getTime());
     }
 
+    @Override
+    public String cutDateTimeToDate(String dateTime) {
+        return dateTime.split("T")[0];
+    }
+
     private Calendar getTodaysCalendar() {
         // today
         Calendar gregorianCalendar = new GregorianCalendar();

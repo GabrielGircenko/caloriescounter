@@ -1,7 +1,6 @@
 package com.gircenko.gabriel.calcounter.ui.fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -65,19 +64,12 @@ public class CaloriesFragment extends Fragment implements ICaloriesView {
         }
     }
 
-    /**{@inheritDoc}*/
     @OnClick(R.id.rl_calories)
-    @Override
     public void goToMealListClicked() {
-        presenter.getDateAfterMealListClicked();
+        callback.gatherMealsThanGoToMealListActivity();
     }
 
     /**{@inheritDoc}*/
-    @Override
-    public void goToMealList(String date) {
-        callback.goToMealListActivity(date);
-    }
-
     @Override
     public void setDate(String date) {
         this.date = date;
@@ -86,8 +78,9 @@ public class CaloriesFragment extends Fragment implements ICaloriesView {
         }
     }
 
+    /**{@inheritDoc}*/
     @Override
-    public void setTotalCalories(String totalCalories) {
+    public void addToTotalCalories(String totalCalories) {
         this.totalCalories = totalCalories;
         if (tv_calories != null) {
             tv_calories.setText(totalCalories);

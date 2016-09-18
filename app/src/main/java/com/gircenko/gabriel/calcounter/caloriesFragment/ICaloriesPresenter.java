@@ -5,5 +5,5 @@ package com.gircenko.gabriel.calcounter.caloriesFragment;
  */
 public interface ICaloriesPresenter {
 
-    void getDateAfterMealListClicked();
+    void gatherMealsAfterMealListClicked();
 }

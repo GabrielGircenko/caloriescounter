@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
     }
 
     @Override
-    public void applyTotalCalories(int page, String totalCalories) {
-        ((CaloriesFragment) adapter.getItem(page)).setTotalCalories(totalCalories);
+    public void addToTotalCalories(int page, String totalCalories) {
+        ((CaloriesFragment) adapter.getItem(page)).addToTotalCalories(totalCalories);
     }
 
     @Override
@@ -110,8 +110,9 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
 
     /**{@inheritDoc}*/
     @Override
-    public void goToMealListActivity(String date) {
+    public void gatherMealsThanGoToMealListActivity() {
         // TODO finish
+        presenter.getMealsByCurrentUser();
         startActivity(new Intent(this, MealListActivity.class));
     }
 }

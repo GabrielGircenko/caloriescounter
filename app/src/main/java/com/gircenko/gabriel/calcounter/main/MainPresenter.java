@@ -1,6 +1,7 @@
 package com.gircenko.gabriel.calcounter.main;
 
 import com.gircenko.gabriel.calcounter.models.MealModel;
+import com.gircenko.gabriel.calcounter.models.MealModelWithId;
 import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseDataInteractor;
@@ -15,20 +16,21 @@ import java.util.TreeMap;
  */
 public class MainPresenter implements IMainPresenter, OnMealDataListener {
 
-    IMainView view;
-    FirebaseAuthInteractor firebaseAuthInteractor;
-    FirebaseDataInteractor firebaseDataInteractor;
-    CalendarInteractor calendarInteractor;
+    private IMainView view;
+    private FirebaseAuthInteractor firebaseAuthInteractor;
+    private FirebaseDataInteractor firebaseDataInteractor;
+    private CalendarInteractor calendarInteractor;
 
     /** String key is the date in format {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT} */
-    private Map<String, MealModel> map = new TreeMap<>();
-    private int[] totalCalories = new int[CaloriesPagerAdapter.PAGE_COUNT];
+    private Map<String, MealModelWithId> map = new TreeMap<>();
+    private int[] totalCalories;
 
     public MainPresenter(IMainView view) {
         this.view = view;
         this.firebaseAuthInteractor = new FirebaseAuthInteractor();
         this.firebaseDataInteractor = new FirebaseDataInteractor();
         this.calendarInteractor = new CalendarInteractor();
+        totalCalories = new int[CaloriesPagerAdapter.PAGE_COUNT];
     }
 
     /**{@inheritDoc}*/
@@ -48,6 +50,21 @@ public class MainPresenter implements IMainPresenter, OnMealDataListener {
     @Override
     public void getMealsByCurrentUser() {
         firebaseDataInteractor.getMealsByUser(firebaseAuthInteractor.getCurrentUserId(), this);
+    }
+
+    // TODO Optimize
+    /**{@inheritDoc}*/
+    @Override
+    public Map<String, MealModelWithId> getMealsByCurrentUserAndDate(String date) {
+        Map<String, MealModelWithId> mealsOfTheDay = new TreeMap<>();
+        for (Map.Entry<String, MealModelWithId> entry : map.entrySet()) {
+            String entryDate = entry.getKey();
+            if (entryDate.equals(date)) {
+                mealsOfTheDay.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return mealsOfTheDay;
     }
 
     /**{@inheritDoc}*/
@@ -79,9 +96,10 @@ public class MainPresenter implements IMainPresenter, OnMealDataListener {
 
     private void putMealIntoMapAndUpdateViewIfApplicable(String mealId, MealModel meal, int day) {
         if (day >= 0) {
-            map.put(mealId, meal);
             totalCalories[day] += meal.getCalories();
-            view.applyTotalCalories(day, String.valueOf(totalCalories[day]));
+            String date = calendarInteractor.cutDateTimeToDate(meal.getDate());
+            map.put(date, new MealModelWithId(meal, mealId));
+            view.addToTotalCalories(day, String.valueOf(meal.getCalories()));
         }
     }
 }
