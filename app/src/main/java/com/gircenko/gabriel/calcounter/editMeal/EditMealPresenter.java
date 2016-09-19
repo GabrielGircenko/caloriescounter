@@ -23,14 +23,14 @@ public class EditMealPresenter implements IEditMealPresenter,
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,
         OnEditMealListener, OnMealDataListener {
 
-    IEditMealView view;
-    FirebaseAuthInteractor firebaseAuthInteractor;
-    FirebaseDataInteractor firebaseDataInteractor;
-    CalendarInteractor calendarInteractor;
-    DatePickerInteractor datePickerInteractor;
-    TimePickerInteractor timePickerInteractor;
-    MealModel meal;
-    String mealId;
+    private IEditMealView view;
+    private FirebaseAuthInteractor firebaseAuthInteractor;
+    private FirebaseDataInteractor firebaseDataInteractor;
+    private CalendarInteractor calendarInteractor;
+    private DatePickerInteractor datePickerInteractor;
+    private TimePickerInteractor timePickerInteractor;
+    private MealModel meal;
+    private String mealId;
 
     public EditMealPresenter(IEditMealView view) {
         this.view = view;

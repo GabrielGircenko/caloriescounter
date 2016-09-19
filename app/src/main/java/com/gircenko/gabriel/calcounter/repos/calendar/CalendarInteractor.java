@@ -22,7 +22,7 @@ public class CalendarInteractor implements ICalendarInteractor {
     /** Used for search */
     private Date dateEnd;
 
-    private final long DAY = 1000 * 60 * 60 * 24;
+    private static final long DAY = 1000 * 60 * 60 * 24;
 
     public CalendarInteractor() {}
 
@@ -104,7 +104,7 @@ public class CalendarInteractor implements ICalendarInteractor {
     public String getDate(StartOrEnd startOrEnd) {
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
         if (startOrEnd == StartOrEnd.START) return sdf.format(date);
-        else  return sdf.format(dateEnd);
+        else return sdf.format(dateEnd);
     }
 
     /**{@inheritDoc}
@@ -113,14 +113,16 @@ public class CalendarInteractor implements ICalendarInteractor {
     public String getTime(StartOrEnd startOrEnd) {
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.TIME_FORMAT);
         if (startOrEnd == StartOrEnd.START) return sdf.format(date);
-        else  return sdf.format(dateEnd);
+        else return sdf.format(dateEnd);
     }
 
-    /**{@inheritDoc}*/
+    /**{@inheritDoc}
+     * @param startOrEnd*/
     @Override
-    public String getDateTime() {
+    public String getDateTime(StartOrEnd startOrEnd) {
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_TIME_FORMAT);
-        return sdf.format(date);
+        if (startOrEnd == StartOrEnd.START) return sdf.format(date);
+        else return sdf.format(dateEnd);
     }
 
     /**{@inheritDoc}

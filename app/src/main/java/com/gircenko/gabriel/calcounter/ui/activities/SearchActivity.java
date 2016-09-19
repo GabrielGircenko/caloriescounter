@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.gircenko.gabriel.calcounter.R;
+import com.gircenko.gabriel.calcounter.models.StartOrEnd;
 import com.gircenko.gabriel.calcounter.search.ISearchView;
 import com.gircenko.gabriel.calcounter.search.SearchPresenter;
 
@@ -80,26 +81,26 @@ public class SearchActivity extends ActivityWithProgressDialog implements ISearc
 
     @Override
     public void setTimeEnd(String time) {
-        tv_date_end.setText(time);
+        tv_time_end.setText(time);
     }
 
     @OnClick(R.id.tv_date_start)
     public void onDateStart() {
-
+        presenter.editDate(this, StartOrEnd.START);
     }
 
     @OnClick(R.id.tv_date_end)
     public void onDateEnd() {
-
+        presenter.editDate(this, StartOrEnd.END);
     }
 
     @OnClick(R.id.tv_time_start)
     public void onTimeStart() {
-
+        presenter.editTime(this, StartOrEnd.START);
     }
 
     @OnClick(R.id.tv_time_end)
     public void onTimeEnd() {
-
+        presenter.editTime(this, StartOrEnd.END);
     }
 }

@@ -16,7 +16,7 @@ public interface ICalendarInteractor {
     void initializeDateModels();
     String getDate(StartOrEnd startOrEnd);
     String getTime(StartOrEnd startOrEnd);
-    String getDateTime();
+    String getDateTime(StartOrEnd startOrEnd);
     int getYear(StartOrEnd startOrEnd);
     int getMonth(StartOrEnd startOrEnd);
     int getDAY(StartOrEnd startOrEnd);
