@@ -1,6 +1,5 @@
 package com.gircenko.gabriel.calcounter.mealList;
 
-import com.gircenko.gabriel.calcounter.Constants;
 import com.gircenko.gabriel.calcounter.models.MealModel;
 import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
@@ -70,8 +69,8 @@ public class MealListPresenter implements IMealListPresenter, OnMealDataListener
     }
 
     private void add(String mealId, MealModel meal) {
-        int day = calendarInteractor.getDayInLastWeekByFullDate(meal.getDate());
-        if (day >= 0 && date != null && date.equals(meal.getDate().split("T")[0])) {
+        int day = calendarInteractor.getDayInLastWeekByDate(meal.getDate());
+        if (day >= 0 && date != null && date.equals(meal.getDate())) {
             map.put(mealId, meal);
 
             totalCalories += meal.getCalories();
@@ -84,8 +83,8 @@ public class MealListPresenter implements IMealListPresenter, OnMealDataListener
     private void remove(String mealId) {
         MealModel previousMeal = map.get(mealId);
         if (previousMeal != null) {
-            int day = calendarInteractor.getDayInLastWeekByFullDate(previousMeal.getDate());
-            if (day >= 0 && date != null && date.equals(previousMeal.getDate().split("T")[0])) {
+            int day = calendarInteractor.getDayInLastWeekByDate(previousMeal.getDate());
+            if (day >= 0 && date != null && date.equals(previousMeal.getDate())) {
                 map.remove(mealId);
 
                 totalCalories -= previousMeal.getCalories();

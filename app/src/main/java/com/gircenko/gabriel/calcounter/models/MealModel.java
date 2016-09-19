@@ -8,8 +8,10 @@ public class MealModel {
     private String userId;
     private String description;
     private long calories;
-    /** In {@link com.gircenko.gabriel.calcounter.Constants#DATE_TIME_FORMAT} */
+    /** In {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT} */
     private String date;
+    /** In {@link com.gircenko.gabriel.calcounter.Constants#TIME_FORMAT} */
+    private String time;
 
     public MealModel() {}
 
@@ -43,5 +45,13 @@ public class MealModel {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

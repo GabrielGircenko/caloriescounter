@@ -10,13 +10,10 @@ import java.text.ParseException;
 public interface ICalendarInteractor {
 
     void setDate(StartOrEnd startOrEnd, int year, int month, int day);
-    void setDate(StartOrEnd startOrEnd, String date);
     void setTime(StartOrEnd startOrEnd, int hour, int minute);
-    void setTime(StartOrEnd startOrEnd, String time);
     void initializeDateModels();
     String getDate(StartOrEnd startOrEnd);
     String getTime(StartOrEnd startOrEnd);
-    String getDateTime(StartOrEnd startOrEnd);
     int getYear(StartOrEnd startOrEnd);
     int getMonth(StartOrEnd startOrEnd);
     int getDAY(StartOrEnd startOrEnd);
@@ -27,7 +24,7 @@ public interface ICalendarInteractor {
      * @param dateTime This is in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_TIME_FORMAT}
      * @return 6 - if today, 5 - if yesterday, ... 0 - if 7 days before today. Negative value if error occurred or is not applicable.
      */
-    int getDayInLastWeekByFullDate(String dateTime);
+    int getDayInLastWeekByDate(String dateTime);
 
     /**
      *
@@ -35,11 +32,4 @@ public interface ICalendarInteractor {
      * @return Date in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT}
      */
     String getDateByPage(int page);
-
-    /**
-     *
-     * @param dateTime In a format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_TIME_FORMAT}
-     * @return Date in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT}
-     */
-    String cutDateTimeToDate(String dateTime);
 }

@@ -105,7 +105,7 @@ public class MainPresenter implements IMainPresenter, OnMealDataListener, OnExpe
 
     /** @param mealId Id of the meal to be added */
     private void add(String mealId, MealModel meal) {
-        int day = calendarInteractor.getDayInLastWeekByFullDate(meal.getDate());
+        int day = calendarInteractor.getDayInLastWeekByDate(meal.getDate());
         if (day >= 0) {
             map.put(mealId, meal);
             totalCalories[day] += meal.getCalories();
@@ -118,7 +118,7 @@ public class MainPresenter implements IMainPresenter, OnMealDataListener, OnExpe
     private void remove(String mealId) {
         MealModel previousMeal = map.get(mealId);
         if (previousMeal != null) {
-            int day = calendarInteractor.getDayInLastWeekByFullDate(previousMeal.getDate());
+            int day = calendarInteractor.getDayInLastWeekByDate(previousMeal.getDate());
             if (day >= 0) {
                 map.remove(mealId);
                 totalCalories[day] -= previousMeal.getCalories();

@@ -15,10 +15,4 @@ public class CaloriesPresenter implements ICaloriesPresenter {
         this.view = view;
         this.calendarInteractor = new CalendarInteractor();
     }
-
-    /**{@inheritDoc}*/
-    @Override
-    public void gatherMealsAfterMealListClicked() {
-        calendarInteractor.getDateTime(StartOrEnd.START);
-    }
 }

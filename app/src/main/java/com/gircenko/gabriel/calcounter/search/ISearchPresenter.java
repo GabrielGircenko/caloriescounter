@@ -14,4 +14,6 @@ public interface ISearchPresenter {
     void editDate(Context context, StartOrEnd startOrEnd);
 
     void editTime(Context context, StartOrEnd startOrEnd);
+
+    String getCurrentUser();
 }

@@ -41,13 +41,6 @@ public class EditMealPresenter implements IEditMealPresenter,
 
     /**{@inheritDoc}*/
     @Override
-    public void setDateModel(String date) {
-        calendarInteractor.setDate(StartOrEnd.START, date);
-        setDateAndTime();
-    }
-
-    /**{@inheritDoc}*/
-    @Override
     public void intializeDateModel() {
         calendarInteractor.initializeDateModels();
         setDateAndTime();
@@ -96,7 +89,8 @@ public class EditMealPresenter implements IEditMealPresenter,
         }
         meal.setDescription(description);
         meal.setCalories(Integer.valueOf(calories));
-        meal.setDate(date + "T" + time);
+        meal.setDate(date);
+        meal.setTime(time);
 
         if (mealId != null) {
             firebaseDataInteractor.saveMeal(mealId, meal, this);
@@ -180,8 +174,8 @@ public class EditMealPresenter implements IEditMealPresenter,
             view.setUser("");
             view.setEditDescriptionField(meal.getDescription());
             view.setEditCaloriesField(String.valueOf(meal.getCalories()));
-            view.setEditDateField(meal.getDate().split("T")[0]);
-            view.setEditTimeField(meal.getDate().split("T")[1]);
+            view.setEditDateField(meal.getDate());
+            view.setEditTimeField(meal.getTime());
         }
     }
 

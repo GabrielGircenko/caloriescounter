@@ -6,10 +6,20 @@ import android.content.Context;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import com.gircenko.gabriel.calcounter.Constants;
+import com.gircenko.gabriel.calcounter.models.MealModel;
 import com.gircenko.gabriel.calcounter.models.StartOrEnd;
 import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.datePicker.DatePickerInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseDataInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.database.OnMealDataListener;
 import com.gircenko.gabriel.calcounter.repos.timePicker.TimePickerInteractor;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Created by Gabriel Gircenko on 19-Sep-16.
@@ -22,10 +32,12 @@ public class SearchPresenter implements ISearchPresenter,
     private StartOrEnd startOrEnd;
     private DatePickerInteractor datePickerInteractor;
     private TimePickerInteractor timePickerInteractor;
+    private FirebaseAuthInteractor firebaseAuthInteractor;
 
     public SearchPresenter(ISearchView view) {
         this.view = view;
         this.calendarInteractor = new CalendarInteractor();
+        this.firebaseAuthInteractor = new FirebaseAuthInteractor();
     }
 
     @Override
@@ -58,6 +70,11 @@ public class SearchPresenter implements ISearchPresenter,
                 calendarInteractor.getHour(startOrEnd),
                 calendarInteractor.getMinute(startOrEnd));
         timePickerInteractor.showDialog();
+    }
+
+    @Override
+    public String getCurrentUser() {
+        return firebaseAuthInteractor.getCurrentUserId();
     }
 
     @Override

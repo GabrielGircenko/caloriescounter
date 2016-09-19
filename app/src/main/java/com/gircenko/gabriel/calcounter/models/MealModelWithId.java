@@ -29,7 +29,7 @@ public class MealModelWithId implements Comparable<MealModel> {
 
     @Override
     public int compareTo(MealModel s) {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_TIME_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
         Date thisDate;
         Date sDate;
         try {

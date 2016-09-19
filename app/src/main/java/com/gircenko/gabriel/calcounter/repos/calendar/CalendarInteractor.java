@@ -41,23 +41,6 @@ public class CalendarInteractor implements ICalendarInteractor {
 
     /**{@inheritDoc}*/
     @Override
-    public void setDate(StartOrEnd startOrEnd, String date) {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
-        try {
-            if (startOrEnd == StartOrEnd.START) {
-                this.date = sdf.parse(date);    // TODO test this so that time is not changed
-
-            } else {
-                this.dateEnd = sdf.parse(date); // TODO test this so that time is not changed
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**{@inheritDoc}*/
-    @Override
     public void setTime(StartOrEnd startOrEnd, int hour, int minute) {
         if (startOrEnd == StartOrEnd.START) {
             calendar.set(Calendar.HOUR_OF_DAY, hour);
@@ -73,25 +56,7 @@ public class CalendarInteractor implements ICalendarInteractor {
 
     /**{@inheritDoc}*/
     @Override
-    public void setTime(StartOrEnd startOrEnd, String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.TIME_FORMAT);
-        try {
-            if (startOrEnd == StartOrEnd.START) {
-                this.date = sdf.parse(time);    // TODO test this so that date is not changed
-
-            } else {
-                this.dateEnd = sdf.parse(time); // TODO test this so that date is not changed
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**{@inheritDoc}*/
-    @Override
     public void initializeDateModels() {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_TIME_FORMAT);
         calendar = Calendar.getInstance();
         date = calendar.getTime();
         calendarEnd = Calendar.getInstance();
@@ -112,15 +77,6 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public String getTime(StartOrEnd startOrEnd) {
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.TIME_FORMAT);
-        if (startOrEnd == StartOrEnd.START) return sdf.format(date);
-        else return sdf.format(dateEnd);
-    }
-
-    /**{@inheritDoc}
-     * @param startOrEnd*/
-    @Override
-    public String getDateTime(StartOrEnd startOrEnd) {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_TIME_FORMAT);
         if (startOrEnd == StartOrEnd.START) return sdf.format(date);
         else return sdf.format(dateEnd);
     }
@@ -196,11 +152,11 @@ public class CalendarInteractor implements ICalendarInteractor {
 
     /**{@inheritDoc}*/
     @Override
-    public int getDayInLastWeekByFullDate(String dateTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_TIME_FORMAT);
+    public int getDayInLastWeekByDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
         Date dateDate = null;
         try {
-            dateDate = sdf.parse(dateTime);
+            dateDate = sdf.parse(date);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -211,14 +167,14 @@ public class CalendarInteractor implements ICalendarInteractor {
             Date now = new Date();
             long todaysDiff = now.getTime() - todayDateCalendar.getTime().getTime();
             long diff = now.getTime() - dateDate.getTime();
-            if (diff < 0) { // this means that the dateDate is in the future
-                return -1;
-
-            } else if (todaysDiff < diff) {
+            if (todaysDiff < diff) {
                 return CaloriesPagerAdapter.PAGE_COUNT - 2 - millisecondsToDays(todayDateCalendar.getTime().getTime() - dateDate.getTime());
 
-            } else {
+            } else if (todaysDiff == diff) {
                 return CaloriesPagerAdapter.PAGE_COUNT - 1;
+
+            } else {
+                return -1;
             }
 
         } else {
@@ -235,11 +191,6 @@ public class CalendarInteractor implements ICalendarInteractor {
 
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
         return sdf.format(date.getTime());
-    }
-
-    @Override
-    public String cutDateTimeToDate(String dateTime) {
-        return dateTime.split("T")[0];
     }
 
     private static Calendar getTodaysCalendar() {

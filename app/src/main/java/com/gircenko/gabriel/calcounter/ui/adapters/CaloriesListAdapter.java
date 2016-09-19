@@ -93,7 +93,7 @@ public class CaloriesListAdapter extends BaseAdapter {
             holder = (ViewHolderItem) convertView.getTag();
         }
 
-        holder.tv_time.setText(mealItems.get(position).getMeal().getDate().split("T")[1]);
+        holder.tv_time.setText(mealItems.get(position).getMeal().getTime());
         holder.tv_description.setText(mealItems.get(position).getMeal().getDescription());
         holder.tv_calories.setText(String.valueOf(mealItems.get(position).getMeal().getCalories()));
 

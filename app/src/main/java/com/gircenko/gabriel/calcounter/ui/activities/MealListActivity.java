@@ -40,6 +40,8 @@ public class MealListActivity extends ActivityWithProgressDialog implements IMea
         ButterKnife.bind(this);
 
         presenter = new MealListPresenter(this);
+
+        // TODO move this to presenter
         adapter = new CaloriesListAdapter(this);
         lv_meal_list.setAdapter(adapter);
         lv_meal_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -51,6 +53,7 @@ public class MealListActivity extends ActivityWithProgressDialog implements IMea
             }
         });
 
+        // TODO move this to presenter
         String date = null;
         String userId = null;
         Bundle bundle = getIntent().getExtras();

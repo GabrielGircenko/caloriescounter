@@ -14,4 +14,5 @@ public interface IFirebaseDataInteractor {
     void saveExpectedCalories(String userId, int expectedCalories, OnSaveExpectedCaloriesListener listener);
     void getExpectedCalories(String userId, OnExpectedCaloriesRetrievedListener listener);
     void getMealByMealId(String mealId, OnMealDataListener listener);
+    void searchMeals(String userId, String dateStart, String dateEnd, String timeStart, String timeEnd, OnMealDataListener listener);
 }

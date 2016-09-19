@@ -10,12 +10,6 @@ import com.gircenko.gabriel.calcounter.models.MealModelWithId;
  */
 public interface IEditMealPresenter {
 
-    /**
-     *
-     * @param date {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT}
-     */
-    void setDateModel(String date);
-
     void intializeDateModel();
 
     void editDate(Context context);
