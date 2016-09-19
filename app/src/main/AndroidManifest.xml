@@ -55,6 +55,17 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
+            android:name=".ui.activities.SearchResultActivity"
+            android:label="Results"
+            android:parentActivityName=".ui.activities.SearchActivity"
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.SearchActivity" />
+        </activity>
+        <activity
             android:name=".ui.activities.EditMealActivity"
             android:label="Edit Meal"
             android:parentActivityName=".ui.activities.MainActivity"

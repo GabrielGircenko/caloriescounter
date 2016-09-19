@@ -80,16 +80,19 @@ public class EditMealActivity extends ActivityWithProgressDialog implements IEdi
         }
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void setUser(String user) {
         // TODO
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void setEditDescriptionField(String description) {
         et_description.setText(description);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void setEditCaloriesField(String calories) {
         et_calories.setText(calories);

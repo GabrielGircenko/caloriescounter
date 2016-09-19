@@ -7,6 +7,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.gircenko.gabriel.calcounter.models.MealModel;
+import com.gircenko.gabriel.calcounter.models.StartOrEnd;
 import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.datePicker.DatePickerInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
@@ -41,14 +42,14 @@ public class EditMealPresenter implements IEditMealPresenter,
     /**{@inheritDoc}*/
     @Override
     public void setDateModel(String date) {
-        calendarInteractor.setDate(date);
+        calendarInteractor.setDate(StartOrEnd.START, date);
         setDateAndTime();
     }
 
     /**{@inheritDoc}*/
     @Override
     public void intializeDateModel() {
-        calendarInteractor.initializeDateModel();
+        calendarInteractor.initializeDateModels();
         setDateAndTime();
     }
 
@@ -58,9 +59,9 @@ public class EditMealPresenter implements IEditMealPresenter,
         datePickerInteractor = new DatePickerInteractor(
                 context,
                 this,
-                calendarInteractor.getYear(),
-                calendarInteractor.getMonth(),
-                calendarInteractor.getDAY());
+                calendarInteractor.getYear(StartOrEnd.START),
+                calendarInteractor.getMonth(StartOrEnd.START),
+                calendarInteractor.getDAY(StartOrEnd.START));
         datePickerInteractor.showDialog();
     }
 
@@ -70,8 +71,8 @@ public class EditMealPresenter implements IEditMealPresenter,
         timePickerInteractor = new TimePickerInteractor(
                 context,
                 this,
-                calendarInteractor.getHour(),
-                calendarInteractor.getMinute());
+                calendarInteractor.getHour(StartOrEnd.START),
+                calendarInteractor.getMinute(StartOrEnd.START));
         timePickerInteractor.showDialog();
     }
 
@@ -120,22 +121,22 @@ public class EditMealPresenter implements IEditMealPresenter,
     }
 
     private void setDateAndTime() {
-        view.setEditDateField(calendarInteractor.getDate());
-        view.setEditTimeField(calendarInteractor.getTime());
+        view.setEditDateField(calendarInteractor.getDate(StartOrEnd.START));
+        view.setEditTimeField(calendarInteractor.getTime(StartOrEnd.START));
     }
 
     /**{@inheritDoc}*/
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        calendarInteractor.setDate(year, month, day);
-        view.setEditDateField(calendarInteractor.getDate());
+        calendarInteractor.setDate(StartOrEnd.START, year, month, day);
+        view.setEditDateField(calendarInteractor.getDate(StartOrEnd.START));
     }
 
     /**{@inheritDoc}*/
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        calendarInteractor.setTime(hour, minute);
-        view.setEditTimeField(calendarInteractor.getTime());
+        calendarInteractor.setTime(StartOrEnd.START, hour, minute);
+        view.setEditTimeField(calendarInteractor.getTime(StartOrEnd.START));
     }
 
     /**{@inheritDoc}*/

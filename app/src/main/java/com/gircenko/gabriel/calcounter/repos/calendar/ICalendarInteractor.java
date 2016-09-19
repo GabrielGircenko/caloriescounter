@@ -1,5 +1,7 @@
 package com.gircenko.gabriel.calcounter.repos.calendar;
 
+import com.gircenko.gabriel.calcounter.models.StartOrEnd;
+
 import java.text.ParseException;
 
 /**
@@ -7,19 +9,19 @@ import java.text.ParseException;
  */
 public interface ICalendarInteractor {
 
-    void setDate(int year, int month, int day);
-    void setDate(String date);
-    void setTime(int hour, int minute);
-    void setTime(String time);
-    void initializeDateModel();
-    String getDate();
-    String getTime();
+    void setDate(StartOrEnd startOrEnd, int year, int month, int day);
+    void setDate(StartOrEnd startOrEnd, String date);
+    void setTime(StartOrEnd startOrEnd, int hour, int minute);
+    void setTime(StartOrEnd startOrEnd, String time);
+    void initializeDateModels();
+    String getDate(StartOrEnd startOrEnd);
+    String getTime(StartOrEnd startOrEnd);
     String getDateTime();
-    int getYear();
-    int getMonth();
-    int getDAY();
-    int getHour();
-    int getMinute();
+    int getYear(StartOrEnd startOrEnd);
+    int getMonth(StartOrEnd startOrEnd);
+    int getDAY(StartOrEnd startOrEnd);
+    int getHour(StartOrEnd startOrEnd);
+    int getMinute(StartOrEnd startOrEnd);
 
     /**
      * @param dateTime This is in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_TIME_FORMAT}
