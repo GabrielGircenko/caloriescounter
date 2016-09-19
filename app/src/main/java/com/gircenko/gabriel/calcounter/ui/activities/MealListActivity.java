@@ -62,6 +62,7 @@ public class MealListActivity extends ActivityWithProgressDialog implements IMea
 
         if (userId != null) {
             if (date != null) {
+                setTitle(date);
                 presenter.getMealsByUserAndDate(userId, date);
 
             } else {
