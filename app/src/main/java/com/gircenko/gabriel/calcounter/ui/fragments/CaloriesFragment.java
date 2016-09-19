@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class CaloriesFragment extends Fragment implements ICaloriesView {
 
     private String date = null;
     private String totalCalories = null;
+    private boolean isOverExpectedCalories = false;
 
     @Override
     public void onAttach(Context context) {
@@ -61,12 +63,13 @@ public class CaloriesFragment extends Fragment implements ICaloriesView {
 
         if (totalCalories != null && tv_calories != null) {
             tv_calories.setText(String.valueOf(totalCalories));
+            setTotalCaloriesColor();
         }
     }
 
     @OnClick(R.id.rl_calories)
     public void goToMealListClicked() {
-        callback.gatherMealsThanGoToMealListActivity();
+        callback.gatherMealsThanGoToMealListActivity(tv_date.getText().toString());
     }
 
     /**{@inheritDoc}*/
@@ -80,10 +83,17 @@ public class CaloriesFragment extends Fragment implements ICaloriesView {
 
     /**{@inheritDoc}*/
     @Override
-    public void addToTotalCalories(String totalCalories) {
+    public void setTotalCalories(String totalCalories, boolean isOverExpectedCalories) {
         this.totalCalories = totalCalories;
+        this.isOverExpectedCalories = isOverExpectedCalories;
         if (tv_calories != null) {
             tv_calories.setText(totalCalories);
+            setTotalCaloriesColor();
         }
+    }
+
+    public void setTotalCaloriesColor() {
+        if (isOverExpectedCalories) tv_calories.setTextColor(ContextCompat.getColor(getContext(), R.color.accent));
+        else tv_calories.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_text));
     }
 }

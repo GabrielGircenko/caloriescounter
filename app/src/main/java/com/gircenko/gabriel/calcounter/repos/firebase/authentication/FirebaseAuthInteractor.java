@@ -2,7 +2,6 @@ package com.gircenko.gabriel.calcounter.repos.firebase.authentication;
 
 import android.support.annotation.NonNull;
 
-import com.gircenko.gabriel.calcounter.models.MealModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -65,5 +64,10 @@ public class FirebaseAuthInteractor implements IFirebaseAuthInteractor {
     @Override
     public String getCurrentUserId() {
         return firebaseAuth.getCurrentUser().getUid();
+    }
+
+    @Override
+    public String getCurrentUserEmail() {
+        return firebaseAuth.getCurrentUser().getEmail();
     }
 }

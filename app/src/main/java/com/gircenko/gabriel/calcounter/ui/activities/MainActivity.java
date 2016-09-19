@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.gircenko.gabriel.calcounter.Constants;
 import com.gircenko.gabriel.calcounter.R;
 import com.gircenko.gabriel.calcounter.caloriesFragment.OnCaloriesFragmentListener;
 import com.gircenko.gabriel.calcounter.main.IMainView;
@@ -81,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
     }
 
     @Override
-    public void addToTotalCalories(int page, String totalCalories) {
-        ((CaloriesFragment) adapter.getItem(page)).addToTotalCalories(totalCalories);
+    public void setTotalCalories(int page, String totalCalories, boolean isOverExpected) {
+        ((CaloriesFragment) adapter.getItem(page)).setTotalCalories(totalCalories, isOverExpected);
     }
 
     @Override
@@ -97,8 +98,7 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
         vp_calories.setAdapter(adapter);
         vp_calories.setCurrentItem(CaloriesPagerAdapter.PAGE_COUNT - 1);  // sets last day as default
 
-        presenter.applyDatesToPages();
-        presenter.getMealsByCurrentUser();
+        presenter.getExpectedCalories();
     }
 
     /**{@inheritDoc}*/
@@ -110,9 +110,19 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
 
     /**{@inheritDoc}*/
     @Override
-    public void gatherMealsThanGoToMealListActivity() {
-        // TODO finish
+    public void continueAfterGettingExpectedCalories() {
+        presenter.applyDatesToPages();
         presenter.getMealsByCurrentUser();
-        startActivity(new Intent(this, MealListActivity.class));
+    }
+
+    /**{@inheritDoc}*/
+    @Override
+    public void gatherMealsThanGoToMealListActivity(String date) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.BUNDLE_KEY_UID, presenter.getCurrentUserId());
+        bundle.putString(Constants.BUNDLE_KEY_DATE, date);
+        Intent intent = new Intent(this, MealListActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

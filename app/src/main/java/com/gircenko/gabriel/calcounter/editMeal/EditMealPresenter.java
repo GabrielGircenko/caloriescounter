@@ -12,6 +12,7 @@ import com.gircenko.gabriel.calcounter.repos.datePicker.DatePickerInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseDataInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.OnEditMealListener;
+import com.gircenko.gabriel.calcounter.repos.firebase.database.OnMealDataListener;
 import com.gircenko.gabriel.calcounter.repos.timePicker.TimePickerInteractor;
 
 /**
@@ -19,7 +20,7 @@ import com.gircenko.gabriel.calcounter.repos.timePicker.TimePickerInteractor;
  */
 public class EditMealPresenter implements IEditMealPresenter,
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,
-        OnEditMealListener {
+        OnEditMealListener, OnMealDataListener {
 
     IEditMealView view;
     FirebaseAuthInteractor firebaseAuthInteractor;
@@ -27,28 +28,28 @@ public class EditMealPresenter implements IEditMealPresenter,
     CalendarInteractor calendarInteractor;
     DatePickerInteractor datePickerInteractor;
     TimePickerInteractor timePickerInteractor;
-    MealModel mealModel;
+    MealModel meal;
+    String mealId;
 
     public EditMealPresenter(IEditMealView view) {
         this.view = view;
         this.calendarInteractor = new CalendarInteractor();
         this.firebaseAuthInteractor = new FirebaseAuthInteractor();
         this.firebaseDataInteractor = new FirebaseDataInteractor();
-        this.mealModel = new MealModel();
     }
 
     /**{@inheritDoc}*/
     @Override
     public void setDateModel(String date) {
         calendarInteractor.setDate(date);
-        setEditDateTime();
+        setDateAndTime();
     }
 
     /**{@inheritDoc}*/
     @Override
     public void intializeDateModel() {
         calendarInteractor.initializeDateModel();
-        setEditDateTime();
+        setDateAndTime();
     }
 
     /**{@inheritDoc}*/
@@ -82,42 +83,59 @@ public class EditMealPresenter implements IEditMealPresenter,
             return;
         }
 
+        if (meal == null) {
+            meal = new MealModel();
+        }
+
         if (user.isEmpty()) {
-            mealModel.setUserId(firebaseAuthInteractor.getCurrentUserId());
+            meal.setUserId(firebaseAuthInteractor.getCurrentUserId());
 
         } else {
-            mealModel.setUserId(user);
+            meal.setUserId(user);
         }
-        mealModel.setDescription(description);
-        mealModel.setCalories(Integer.valueOf(calories));
-        mealModel.setDate(date + "T" + time);
+        meal.setDescription(description);
+        meal.setCalories(Integer.valueOf(calories));
+        meal.setDate(date + "T" + time);
 
-        firebaseDataInteractor.saveMeal(mealModel, this);
+        if (mealId != null) {
+            firebaseDataInteractor.saveMeal(mealId, meal, this);
+
+        } else {
+            firebaseDataInteractor.saveMeal(meal, this);
+        }
     }
 
     /**{@inheritDoc}*/
     @Override
     public void attemptToDeleteMeal() {
-        // TODO
+        if (mealId != null) {
+            firebaseDataInteractor.deleteMeal(mealId, this);
+        }
     }
 
-    private void setEditDateTime() {
-        view.setEditDate(calendarInteractor.getDate());
-        view.setEditTime(calendarInteractor.getTime());
+    @Override
+    public void getMealByMealId(String mealId) {
+        this.mealId = mealId;
+        firebaseDataInteractor.getMealByMealId(mealId, this);
+    }
+
+    private void setDateAndTime() {
+        view.setEditDateField(calendarInteractor.getDate());
+        view.setEditTimeField(calendarInteractor.getTime());
     }
 
     /**{@inheritDoc}*/
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         calendarInteractor.setDate(year, month, day);
-        view.setEditDate(calendarInteractor.getDate());
+        view.setEditDateField(calendarInteractor.getDate());
     }
 
     /**{@inheritDoc}*/
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         calendarInteractor.setTime(hour, minute);
-        view.setEditTime(calendarInteractor.getTime());
+        view.setEditTimeField(calendarInteractor.getTime());
     }
 
     /**{@inheritDoc}*/
@@ -132,5 +150,47 @@ public class EditMealPresenter implements IEditMealPresenter,
     public void onDeleteSuccess(boolean success) {
         if (success) view.onMealDeleteSuccessful();
         else view.onMealDeleteFailed();
+    }
+
+    /**{@inheritDoc}*/
+    @Override
+    public void onGotNewMeal(String mealId, MealModel meal) {
+        add(mealId, meal);
+    }
+
+    /**{@inheritDoc}*/
+    @Override
+    public void onMealChanged(String mealId, MealModel meal) {
+        remove(mealId);
+        add(mealId, meal);
+    }
+
+    /**{@inheritDoc}*/
+    @Override
+    public void onMealRemoved(String mealId) {
+        remove(mealId);
+    }
+
+    private void add(String mealId, MealModel meal) {
+        if (this.mealId == null || this.mealId.equals(mealId)) {
+            this.meal = meal;
+            this.mealId = mealId;
+
+            view.setUser("");
+            view.setEditDescriptionField(meal.getDescription());
+            view.setEditCaloriesField(String.valueOf(meal.getCalories()));
+            view.setEditDateField(meal.getDate().split("T")[0]);
+            view.setEditTimeField(meal.getDate().split("T")[1]);
+        }
+    }
+
+    private void remove(String mealId) {
+        if (this.mealId != null && this.mealId.equals(mealId)) {
+            this.meal = null;
+            this.mealId = null;
+            intializeDateModel();
+            view.setEditCaloriesField("");
+            view.setEditDescriptionField("");
+        }
     }
 }

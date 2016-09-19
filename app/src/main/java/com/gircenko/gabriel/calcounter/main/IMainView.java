@@ -7,8 +7,9 @@ public interface IMainView {
 
     void userLoggedIn();
     void userNotLoggedInGoToLogin();
+    void continueAfterGettingExpectedCalories();
     void fabClicked();
     void logoutClicked();
-    void addToTotalCalories(int page, String totalCalories);
+    void setTotalCalories(int page, String totalCalories, boolean isOverExpected);
     void applyDate(int page, String date);
 }

@@ -6,4 +6,5 @@ package com.gircenko.gabriel.calcounter.repos.firebase.database;
 public interface OnExpectedCaloriesRetrievedListener {
 
     void onExpectedCaloriesRetrieved(String expectedCalories);
+    void onExpectedCaloriesError();
 }

@@ -47,4 +47,7 @@ public class SettingsPresenter implements ISettingsPresenter, OnExpectedCalories
     public void onExpectedCaloriesRetrieved(String expectedCalories) {
         view.setExpectedCalories(expectedCalories);
     }
+
+    @Override
+    public void onExpectedCaloriesError() {}
 }

@@ -19,9 +19,7 @@ public class CalendarInteractor implements ICalendarInteractor {
 
     private final long DAY = 1000 * 60 * 60 * 24;
 
-    public CalendarInteractor() {
-        calendar = Calendar.getInstance();
-    }
+    public CalendarInteractor() {}
 
     /**{@inheritDoc}*/
     @Override
@@ -67,7 +65,7 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public void initializeDateModel() {
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_TIME_FORMAT);
-        // TODO finish
+        calendar = Calendar.getInstance();
         date = calendar.getTime();
     }
 
@@ -143,7 +141,10 @@ public class CalendarInteractor implements ICalendarInteractor {
             Date now = new Date();
             long todaysDiff = now.getTime() - todayDateCalendar.getTime().getTime();
             long diff = now.getTime() - dateDate.getTime();
-            if (todaysDiff < diff) {
+            if (diff < 0) { // this means that the dateDate is in the future
+                return -1;
+
+            } else if (todaysDiff < diff) {
                 return CaloriesPagerAdapter.PAGE_COUNT - 2 - millisecondsToDays(todayDateCalendar.getTime().getTime() - dateDate.getTime());
 
             } else {

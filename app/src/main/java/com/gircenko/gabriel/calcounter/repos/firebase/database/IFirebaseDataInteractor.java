@@ -8,8 +8,10 @@ import com.gircenko.gabriel.calcounter.models.MealModel;
 public interface IFirebaseDataInteractor {
 
     void saveMeal(MealModel meal, OnEditMealListener listener);
-    void deleteMeal(MealModel meal, OnEditMealListener listener);
+    void saveMeal(String mealId, MealModel meal, OnEditMealListener listener);
+    void deleteMeal(String mealId, OnEditMealListener listener);
     void getMealsByUser(String userId, OnMealDataListener listener);
     void saveExpectedCalories(String userId, int expectedCalories, OnSaveExpectedCaloriesListener listener);
     void getExpectedCalories(String userId, OnExpectedCaloriesRetrievedListener listener);
+    void getMealByMealId(String mealId, OnMealDataListener listener);
 }

@@ -16,10 +16,9 @@ public interface IMainPresenter {
 
     void getMealsByCurrentUser();
 
-    /**
-     * @param date This is in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT}
-     *  */
-    Map<String, MealModelWithId> getMealsByCurrentUserAndDate(String date);
-
     void applyDatesToPages();
+
+    String getCurrentUserId();
+
+    void getExpectedCalories();
 }

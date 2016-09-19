@@ -41,14 +41,10 @@ public class EditMealActivity extends ActivityWithProgressDialog implements IEdi
 
         presenter = new EditMealPresenter(this);
 
-        String date = null;
+        String mealId = getIntent().getStringExtra(Constants.BUNDLE_KEY_MEAL_ID);
 
-        if (savedInstanceState != null) {
-            savedInstanceState.getString(Constants.BUNDLE_KEY_DATE);
-        }
-
-        if (date != null) {
-            // TODO
+        if (mealId != null) {
+            presenter.getMealByMealId(mealId);
 
         } else {
             presenter.intializeDateModel();
@@ -84,17 +80,33 @@ public class EditMealActivity extends ActivityWithProgressDialog implements IEdi
         }
     }
 
+    @Override
+    public void setUser(String user) {
+        // TODO
+    }
+
+    @Override
+    public void setEditDescriptionField(String description) {
+        et_description.setText(description);
+    }
+
+    @Override
+    public void setEditCaloriesField(String calories) {
+        et_calories.setText(calories);
+    }
+
     /**{@inheritDoc}*/
     @Override
-    public void setEditDate(String date) {
+    public void setEditDateField(String date) {
         et_date.setText(date);
     }
 
     /**{@inheritDoc}*/
     @Override
-    public void setEditTime(String time) {
+    public void setEditTimeField(String time) {
         et_time.setText(time);
     }
+
 
     /**{@inheritDoc}*/
     @Override

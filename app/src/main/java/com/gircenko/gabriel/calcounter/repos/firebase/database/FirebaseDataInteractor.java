@@ -46,30 +46,34 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
         });
     }
 
+    @Override
+    public void saveMeal(String mealId, MealModel meal, final OnEditMealListener listener) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference(MEALS).child(mealId);
+        databaseReference.setValue(meal, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                listener.onSaveSuccess(databaseError == null);
+            }
+        });
+    }
+
     /**{@inheritDoc}*/
     @Override
-    public void deleteMeal(MealModel meal, OnEditMealListener listener) {
-        // TODO
+    public void deleteMeal(String mealId, final OnEditMealListener listener) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference(MEALS).child(mealId);
+        databaseReference.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                listener.onSaveSuccess(databaseError == null);
+            }
+        });
     }
 
     /**{@inheritDoc}*/
     @Override
     public void getMealsByUser(String userId, final OnMealDataListener listener) {
         DatabaseReference databaseReference = firebaseDatabase.getReference(MEALS);
-//        databaseReference.orderByChild(UID).equalTo(userId).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Log.i(TAG, "onDataChange");
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.i(TAG, "onCancelled");
-//            }
-//        });
         databaseReference.orderByChild(UID).equalTo(userId).addChildEventListener(new ChildEventListener() {
-//        Query query = databaseReference.equalTo(userId, UID);
-//        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Log.i(TAG, "onChildAdded");
@@ -123,7 +127,44 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onExpectedCaloriesError();
+            }
         });
+    }
+
+    @Override
+    public void getMealByMealId(String mealId, final OnMealDataListener listener) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference(MEALS);
+        databaseReference.orderByKey().equalTo(mealId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.i(TAG, "onChildAdded");
+                listener.onGotNewMeal(dataSnapshot.getKey(), dataSnapshot.getValue(MealModel.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.i(TAG, "onChildChanged");
+                listener.onMealChanged(dataSnapshot.getKey(), dataSnapshot.getValue(MealModel.class));
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.i(TAG, "onChildRemoved");
+                listener.onMealRemoved(dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                Log.i(TAG, "onChildMoved");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i(TAG, "onCancelled");
+            }
+        });
+
     }
 }

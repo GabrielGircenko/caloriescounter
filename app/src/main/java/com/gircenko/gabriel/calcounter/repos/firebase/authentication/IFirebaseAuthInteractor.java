@@ -13,4 +13,5 @@ public interface IFirebaseAuthInteractor {
     boolean isCurrentUserExisting();
     void signOut();
     String getCurrentUserId();
+    String getCurrentUserEmail();
 }

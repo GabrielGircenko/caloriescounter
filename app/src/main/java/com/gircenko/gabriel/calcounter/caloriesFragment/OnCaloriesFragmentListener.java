@@ -5,5 +5,5 @@ package com.gircenko.gabriel.calcounter.caloriesFragment;
  */
 public interface OnCaloriesFragmentListener {
 
-    void gatherMealsThanGoToMealListActivity();
+    void gatherMealsThanGoToMealListActivity(String date);
 }
