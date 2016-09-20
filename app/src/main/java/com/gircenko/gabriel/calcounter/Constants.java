@@ -13,9 +13,9 @@ public class Constants {
     public static final String BUNDLE_KEY_TIME_START = "BUNDLE_KEY_TIME_START";
     public static final String BUNDLE_KEY_TIME_END = "BUNDLE_KEY_TIME_END";
 
-    public static final String DATE_FORMAT = "dd.MM.yy.";
+    public static final String DATE_FORMAT = "dd_MM_yy";
     public static final String TIME_FORMAT = "HH:mm";
-    public static final String DATE_TIME_FORMAT = "dd.MM.yy.'T'HH:mm";
+//    public static final String DATE_TIME_FORMAT = "dd.MM.yy.'T'HH:mm";
 
     public static final String MESSAGE_NO_MEALS = "No meals";
 }

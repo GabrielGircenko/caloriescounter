@@ -43,9 +43,10 @@ public class EditMealActivity extends ActivityWithProgressDialog implements IEdi
 
         // TODO move this to presenter
         String mealId = getIntent().getStringExtra(Constants.BUNDLE_KEY_MEAL_ID);
+        String date = getIntent().getStringExtra(Constants.BUNDLE_KEY_DATE);
 
-        if (mealId != null) {
-            presenter.getMealByMealId(mealId);
+        if (mealId != null && date != null) {
+            presenter.getMealByDateAndMealId(date, mealId);
 
         } else {
             presenter.intializeDateModel();

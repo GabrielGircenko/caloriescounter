@@ -1,46 +1,41 @@
 package com.gircenko.gabriel.calcounter.models;
 
-import com.gircenko.gabriel.calcounter.Constants;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by Gabriel Gircenko on 18-Sep-16.
  */
-public class MealModelWithId implements Comparable<MealModel> {
+public class MealModelWithId {
 
     private MealModel meal;
-    private String id;
+    private String mealId;
+    private String date;
 
-    public MealModelWithId(MealModel meal, String id) {
+    public MealModelWithId(MealModel meal, String mealId, String date) {
         this.meal = meal;
-        this.id = id;
+        this.mealId = mealId;
+        this.date = date;
     }
 
     public MealModel getMeal() {
         return meal;
     }
 
-    public String getId() {
-        return id;
+    public String getMealId() {
+        return mealId;
     }
 
-    @Override
-    public int compareTo(MealModel s) {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
-        Date thisDate;
-        Date sDate;
-        try {
-            thisDate = sdf.parse(meal.getDate());
-            sDate = sdf.parse(s.getDate());
+    public String getDate() {
+        return date;
+    }
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return -1;
-        }
+    public void setMeal(MealModel meal) {
+        this.meal = meal;
+    }
 
-        return thisDate.compareTo(sDate);
+    public void setMealId(String mealId) {
+        this.mealId = mealId;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

@@ -20,5 +20,5 @@ public interface IEditMealPresenter {
 
     void attemptToDeleteMeal();
 
-    void getMealByMealId(String mealId);
+    void getMealByDateAndMealId(String date, String mealId);
 }

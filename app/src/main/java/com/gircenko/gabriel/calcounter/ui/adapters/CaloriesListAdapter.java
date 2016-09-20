@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -12,9 +11,7 @@ import com.gircenko.gabriel.calcounter.R;
 import com.gircenko.gabriel.calcounter.models.MealModelWithId;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 /**
  * Created by Gabriel Gircenko on 18-Sep-16.
@@ -23,7 +20,7 @@ public class CaloriesListAdapter extends BaseAdapter {
 
     private final int VIEW_TYPE_ITEM = 102;
 
-    private ArrayList<MealModelWithId> mealItems = new ArrayList<>();
+    private List<MealModelWithId> mealItems = new ArrayList<>();
 
     private LayoutInflater inflater;
 
@@ -31,14 +28,14 @@ public class CaloriesListAdapter extends BaseAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void addItem(MealModelWithId meal) {
-        mealItems.add(meal);
+    public void setItemList(List<MealModelWithId> meals) {
+        mealItems = meals;
         notifyDataSetChanged();
     }
 
     public void removeItem(String mealId) {
         for (MealModelWithId meal : mealItems) {
-            if (mealId.equals(meal.getId())) {
+            if (mealId.equals(meal.getMealId())) {
                 mealItems.remove(meal);
                 notifyDataSetChanged();
                 return;

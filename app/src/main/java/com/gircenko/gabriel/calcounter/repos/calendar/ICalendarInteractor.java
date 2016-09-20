@@ -32,4 +32,7 @@ public interface ICalendarInteractor {
      * @return Date in format of {@link com.gircenko.gabriel.calcounter.Constants#DATE_FORMAT}
      */
     String getDateByPage(int page);
+
+    boolean isDateInRange(String date, String dateStart, String dateEnd);
+    boolean isTimeInRange(String time, String timeStart, String timeEnd);
 }

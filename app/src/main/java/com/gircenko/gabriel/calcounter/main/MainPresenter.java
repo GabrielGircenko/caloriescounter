@@ -1,21 +1,23 @@
 package com.gircenko.gabriel.calcounter.main;
 
 import com.gircenko.gabriel.calcounter.Constants;
-import com.gircenko.gabriel.calcounter.models.MealModel;
+import com.gircenko.gabriel.calcounter.models.MealModelWithId;
 import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseDataInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.OnExpectedCaloriesRetrievedListener;
-import com.gircenko.gabriel.calcounter.repos.firebase.database.OnMealDataListener;
+import com.gircenko.gabriel.calcounter.repos.firebase.database.OnMealListDataListener;
 import com.gircenko.gabriel.calcounter.ui.adapters.CaloriesPagerAdapter;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
  * Created by Gabriel Gircenko on 15-Sep-16.
  */
-public class MainPresenter implements IMainPresenter, OnMealDataListener, OnExpectedCaloriesRetrievedListener {
+public class MainPresenter implements IMainPresenter, OnExpectedCaloriesRetrievedListener, OnMealListDataListener {
 
     private IMainView view;
     private FirebaseAuthInteractor firebaseAuthInteractor;
@@ -23,7 +25,7 @@ public class MainPresenter implements IMainPresenter, OnMealDataListener, OnExpe
     private CalendarInteractor calendarInteractor;
 
     /** String key is the mealId */
-    private Map<String, MealModel> map = new TreeMap<>();
+    private Map<String, MealModelWithId> map = new TreeMap<>();
     private int[] totalCalories;
     private int expectedCalories = 0;
 
@@ -68,17 +70,20 @@ public class MainPresenter implements IMainPresenter, OnMealDataListener, OnExpe
         return firebaseAuthInteractor.getCurrentUserId();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void getExpectedCalories() {
         firebaseDataInteractor.getExpectedCalories(firebaseAuthInteractor.getCurrentUserId(), this);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onExpectedCaloriesRetrieved(String expectedCalories) {
         this.expectedCalories = Integer.valueOf(expectedCalories);
         view.continueAfterGettingExpectedCalories();
     }
 
+    /**{@inheritDoc}*/
     @Override
     public void onExpectedCaloriesError() {
         view.continueAfterGettingExpectedCalories();
@@ -86,44 +91,24 @@ public class MainPresenter implements IMainPresenter, OnMealDataListener, OnExpe
 
     /**{@inheritDoc}*/
     @Override
-    public void onGotNewMeal(String mealId, MealModel meal) {
-        add(mealId, meal);
-    }
-
-    /**{@inheritDoc}*/
-    @Override
-    public void onMealChanged(String mealId, MealModel meal) {
-        remove(mealId);
-        add(mealId, meal);
-    }
-
-    /**{@inheritDoc}*/
-    @Override
-    public void onMealRemoved(String mealId) {
-        remove(mealId);
-    }
-
-    /** @param mealId Id of the meal to be added */
-    private void add(String mealId, MealModel meal) {
-        int day = calendarInteractor.getDayInLastWeekByDate(meal.getDate());
-        if (day >= 0) {
-            map.put(mealId, meal);
-            totalCalories[day] += meal.getCalories();
-            setTotalCaloriesInView(day);
-        }
-    }
-
-    /**
-     * @param mealId Id of the meal to be removed  */
-    private void remove(String mealId) {
-        MealModel previousMeal = map.get(mealId);
-        if (previousMeal != null) {
-            int day = calendarInteractor.getDayInLastWeekByDate(previousMeal.getDate());
+    public void onMealsChanged(List<MealModelWithId> meals) {
+        if (!meals.isEmpty()) {
+            int day = calendarInteractor.getDayInLastWeekByDate(meals.get(0).getDate());
             if (day >= 0) {
-                map.remove(mealId);
-                totalCalories[day] -= previousMeal.getCalories();
+                map = new TreeMap<>();
+                totalCalories[day] = 0;
+                Iterator<MealModelWithId> iterator = meals.iterator();
+                while (iterator.hasNext()) {
+                    MealModelWithId meal = iterator.next();
+                    map.put(meal.getMealId(), meal);
+                    totalCalories[day] += meal.getMeal().getCalories();
+                }
+
                 setTotalCaloriesInView(day);
             }
+        } else {
+            map = new TreeMap<>();
+            totalCalories = new int[CaloriesPagerAdapter.PAGE_COUNT];
         }
     }
 

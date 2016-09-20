@@ -60,7 +60,6 @@ public class SearchActivity extends ActivityWithProgressDialog implements ISearc
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                showProgressDialog("Searching... Please, wait.");
                 Intent intent = new Intent(this, SearchResultActivity.class);
                 String userId = null;
                 if (sp_user.getSelectedItem() != null && !sp_user.getSelectedItem().toString().isEmpty()) {

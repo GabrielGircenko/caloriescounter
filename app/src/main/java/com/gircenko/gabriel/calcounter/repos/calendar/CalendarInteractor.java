@@ -15,10 +15,10 @@ import java.util.GregorianCalendar;
  */
 public class CalendarInteractor implements ICalendarInteractor {
 
-    private Calendar calendar;
+    private Calendar calendarStart;
     /** Used for search */
     private Calendar calendarEnd;
-    private Date date;
+    private Date dateStart;
     /** Used for search */
     private Date dateEnd;
 
@@ -30,8 +30,8 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public void setDate(StartOrEnd startOrEnd, int year, int month, int day) {
         if (startOrEnd == StartOrEnd.START) {
-            calendar.set(year, month, day);
-            date = calendar.getTime();
+            calendarStart.set(year, month, day);
+            dateStart = calendarStart.getTime();
 
         } else {
             calendarEnd.set(year, month, day);
@@ -43,9 +43,9 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public void setTime(StartOrEnd startOrEnd, int hour, int minute) {
         if (startOrEnd == StartOrEnd.START) {
-            calendar.set(Calendar.HOUR_OF_DAY, hour);
-            calendar.set(Calendar.MINUTE, minute);
-            date = calendar.getTime();
+            calendarStart.set(Calendar.HOUR_OF_DAY, hour);
+            calendarStart.set(Calendar.MINUTE, minute);
+            dateStart = calendarStart.getTime();
 
         } else {
             calendarEnd.set(Calendar.HOUR_OF_DAY, hour);
@@ -57,8 +57,8 @@ public class CalendarInteractor implements ICalendarInteractor {
     /**{@inheritDoc}*/
     @Override
     public void initializeDateModels() {
-        calendar = Calendar.getInstance();
-        date = calendar.getTime();
+        calendarStart = Calendar.getInstance();
+        dateStart = calendarStart.getTime();
         calendarEnd = Calendar.getInstance();
         dateEnd = calendarEnd.getTime();
     }
@@ -68,7 +68,7 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public String getDate(StartOrEnd startOrEnd) {
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
-        if (startOrEnd == StartOrEnd.START) return sdf.format(date);
+        if (startOrEnd == StartOrEnd.START) return sdf.format(dateStart);
         else return sdf.format(dateEnd);
     }
 
@@ -77,7 +77,7 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public String getTime(StartOrEnd startOrEnd) {
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.TIME_FORMAT);
-        if (startOrEnd == StartOrEnd.START) return sdf.format(date);
+        if (startOrEnd == StartOrEnd.START) return sdf.format(dateStart);
         else return sdf.format(dateEnd);
     }
 
@@ -86,8 +86,8 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public int getYear(StartOrEnd startOrEnd) {
         if (startOrEnd == StartOrEnd.START) {
-            calendar.setTime(date);
-            return calendar.get(Calendar.YEAR);
+            calendarStart.setTime(dateStart);
+            return calendarStart.get(Calendar.YEAR);
 
         } else {
             calendarEnd.setTime(dateEnd);
@@ -100,8 +100,8 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public int getMonth(StartOrEnd startOrEnd) {
         if (startOrEnd == StartOrEnd.START) {
-            calendar.setTime(date);
-            return calendar.get(Calendar.MONTH);
+            calendarStart.setTime(dateStart);
+            return calendarStart.get(Calendar.MONTH);
 
         } else {
             calendarEnd.setTime(dateEnd);
@@ -113,8 +113,8 @@ public class CalendarInteractor implements ICalendarInteractor {
      * @param startOrEnd*/
     public int getDAY(StartOrEnd startOrEnd) {
         if (startOrEnd == StartOrEnd.START) {
-            calendar.setTime(date);
-            return calendar.get(Calendar.DAY_OF_MONTH);
+            calendarStart.setTime(dateStart);
+            return calendarStart.get(Calendar.DAY_OF_MONTH);
 
         } else {
             calendarEnd.setTime(dateEnd);
@@ -127,8 +127,8 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public int getHour(StartOrEnd startOrEnd) {
         if (startOrEnd == StartOrEnd.START) {
-            calendar.setTime(date);
-            return calendar.get(Calendar.HOUR_OF_DAY);
+            calendarStart.setTime(dateStart);
+            return calendarStart.get(Calendar.HOUR_OF_DAY);
 
         } else {
             calendarEnd.setTime(dateEnd);
@@ -141,8 +141,8 @@ public class CalendarInteractor implements ICalendarInteractor {
     @Override
     public int getMinute(StartOrEnd startOrEnd) {
         if (startOrEnd == StartOrEnd.START) {
-            calendar.setTime(date);
-            return calendar.get(Calendar.MINUTE);
+            calendarStart.setTime(dateStart);
+            return calendarStart.get(Calendar.MINUTE);
 
         } else {
             calendarEnd.setTime(dateEnd);
@@ -168,7 +168,7 @@ public class CalendarInteractor implements ICalendarInteractor {
             long todaysDiff = now.getTime() - todayDateCalendar.getTime().getTime();
             long diff = now.getTime() - dateDate.getTime();
             if (todaysDiff < diff) {
-                return CaloriesPagerAdapter.PAGE_COUNT - 2 - millisecondsToDays(todayDateCalendar.getTime().getTime() - dateDate.getTime());
+                return CaloriesPagerAdapter.PAGE_COUNT - 1 - millisecondsToDays(todayDateCalendar.getTime().getTime() - dateDate.getTime());
 
             } else if (todaysDiff == diff) {
                 return CaloriesPagerAdapter.PAGE_COUNT - 1;
@@ -191,6 +191,44 @@ public class CalendarInteractor implements ICalendarInteractor {
 
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
         return sdf.format(date.getTime());
+    }
+
+    @Override
+    public boolean isDateInRange(String date, String dateStart, String dateEnd) {
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
+        Date parameterDate = null;
+        Date parameterDateStart = null;
+        Date parameterDateEnd = null;
+        try {
+            parameterDate = sdf.parse(date);
+            parameterDateStart = sdf.parse(dateStart);
+            parameterDateEnd = sdf.parse(dateEnd);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return (parameterDate.before(parameterDateEnd) || parameterDate.equals(parameterDateEnd))
+                && (parameterDate.after(parameterDateStart) || parameterDate.equals(parameterDateStart));
+    }
+
+    @Override
+    public boolean isTimeInRange(String time, String timeStart, String timeEnd) {
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.TIME_FORMAT);
+        Date parameterDate = null;
+        Date parameterDateStart = null;
+        Date parameterDateEnd = null;
+        try {
+            parameterDate = sdf.parse(time);
+            parameterDateStart = sdf.parse(timeStart);
+            parameterDateEnd = sdf.parse(timeEnd);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return (parameterDate.before(parameterDateEnd) || parameterDate.equals(parameterDateEnd))
+                && (parameterDate.after(parameterDateStart) || parameterDate.equals(parameterDateStart));
     }
 
     private static Calendar getTodaysCalendar() {

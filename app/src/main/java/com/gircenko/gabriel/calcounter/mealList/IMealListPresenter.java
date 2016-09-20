@@ -10,8 +10,6 @@ import java.util.Map;
  */
 public interface IMealListPresenter {
 
-    void getMealsByUser(String userId);
-
     void getMealsByUserAndDate(String userId, String date);
 
     void getUserEmail();

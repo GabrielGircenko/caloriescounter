@@ -93,7 +93,12 @@ public class CaloriesFragment extends Fragment implements ICaloriesView {
     }
 
     public void setTotalCaloriesColor() {
-        if (isOverExpectedCalories) tv_calories.setTextColor(ContextCompat.getColor(getContext(), R.color.accent));
-        else tv_calories.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_text));
+        Context context = getContext();     // TODO this is added because there is flaw in a workflow probably...
+        if (context != null) {
+            if (isOverExpectedCalories)
+                tv_calories.setTextColor(ContextCompat.getColor(context, R.color.accent));
+            else
+                tv_calories.setTextColor(ContextCompat.getColor(context, R.color.primary_text));
+        }
     }
 }

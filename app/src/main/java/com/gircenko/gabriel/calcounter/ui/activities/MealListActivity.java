@@ -11,9 +11,10 @@ import com.gircenko.gabriel.calcounter.Constants;
 import com.gircenko.gabriel.calcounter.R;
 import com.gircenko.gabriel.calcounter.mealList.IMealListView;
 import com.gircenko.gabriel.calcounter.mealList.MealListPresenter;
-import com.gircenko.gabriel.calcounter.models.MealModel;
 import com.gircenko.gabriel.calcounter.models.MealModelWithId;
 import com.gircenko.gabriel.calcounter.ui.adapters.CaloriesListAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +49,9 @@ public class MealListActivity extends ActivityWithProgressDialog implements IMea
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MealListActivity.this, EditMealActivity.class);
-                intent.putExtra(Constants.BUNDLE_KEY_MEAL_ID, ((MealModelWithId) adapterView.getItemAtPosition(i)).getId());
+                MealModelWithId meal = (MealModelWithId) adapterView.getItemAtPosition(i);
+                intent.putExtra(Constants.BUNDLE_KEY_MEAL_ID, meal.getMealId());
+                intent.putExtra(Constants.BUNDLE_KEY_DATE, meal.getDate());
                 startActivity(intent);
             }
         });
@@ -68,19 +71,17 @@ public class MealListActivity extends ActivityWithProgressDialog implements IMea
                 setTitle(date);
                 presenter.getMealsByUserAndDate(userId, date);
 
-            } else {
-                presenter.getMealsByUser(userId);
             }
         }
 
         presenter.getUserEmail();
     }
 
-    /**{@inheritDoc}*/
+    /**{@inheritDoc}
+     * @param meals*/
     @Override
-    public void addMeal(String mealId, MealModel meal) {
-        MealModelWithId mealModelWithId = new MealModelWithId(meal, mealId);
-        adapter.addItem(mealModelWithId);
+    public void setMeals(List<MealModelWithId> meals) {
+        adapter.setItemList(meals);
     }
 
     /**{@inheritDoc}*/

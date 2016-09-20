@@ -7,6 +7,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.gircenko.gabriel.calcounter.models.MealModel;
+import com.gircenko.gabriel.calcounter.models.MealModelWithId;
 import com.gircenko.gabriel.calcounter.models.StartOrEnd;
 import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.datePicker.DatePickerInteractor;
@@ -29,8 +30,7 @@ public class EditMealPresenter implements IEditMealPresenter,
     private CalendarInteractor calendarInteractor;
     private DatePickerInteractor datePickerInteractor;
     private TimePickerInteractor timePickerInteractor;
-    private MealModel meal;
-    private String mealId;
+    private MealModelWithId meal;
 
     public EditMealPresenter(IEditMealView view) {
         this.view = view;
@@ -71,47 +71,54 @@ public class EditMealPresenter implements IEditMealPresenter,
 
     /**{@inheritDoc}*/
     @Override
-    public void attemptToSaveMeal(String user, String description, String calories, String date, String time) {
+    public void attemptToSaveMeal(String userId, String description, String calories, String date, String time) {
         if (calories.isEmpty() || date.isEmpty() || time.isEmpty()) {
             view.onMealSaveFailedDueToIncorrectInput();
             return;
         }
 
+        MealModel mealModel = new MealModel();
+        mealModel.setDescription(description);
+        mealModel.setCalories(Integer.valueOf(calories));
+        mealModel.setTime(time);
+
         if (meal == null) {
-            meal = new MealModel();
-        }
-
-        if (user.isEmpty()) {
-            meal.setUserId(firebaseAuthInteractor.getCurrentUserId());
+            meal = new MealModelWithId(mealModel, null, date);
 
         } else {
-            meal.setUserId(user);
+            meal.setDate(date);
+            meal.setMeal(mealModel);
         }
-        meal.setDescription(description);
-        meal.setCalories(Integer.valueOf(calories));
-        meal.setDate(date);
-        meal.setTime(time);
 
-        if (mealId != null) {
-            firebaseDataInteractor.saveMeal(mealId, meal, this);
+        if (userId.isEmpty()) {
+            userId = firebaseAuthInteractor.getCurrentUserId();
+        }
+
+        if (meal.getMealId() != null) {
+            firebaseDataInteractor.saveMeal(userId, meal.getDate(), meal.getMealId(), mealModel, this);
 
         } else {
-            firebaseDataInteractor.saveMeal(meal, this);
+            firebaseDataInteractor.saveMeal(userId, meal.getDate(), mealModel, this);
         }
     }
 
     /**{@inheritDoc}*/
     @Override
     public void attemptToDeleteMeal() {
-        if (mealId != null) {
-            firebaseDataInteractor.deleteMeal(mealId, this);
+        if (meal != null && meal.getMealId() != null) {
+            firebaseDataInteractor.deleteMeal(firebaseAuthInteractor.getCurrentUserId(), meal.getDate(), meal.getMealId(), this);
         }
     }
 
     @Override
-    public void getMealByMealId(String mealId) {
-        this.mealId = mealId;
-        firebaseDataInteractor.getMealByMealId(mealId, this);
+    public void getMealByDateAndMealId(String date, String mealId) {
+        if (meal == null) {
+            meal = new MealModelWithId(null, null, null);
+        }
+
+        meal.setMealId(mealId);
+        meal.setDate(date);
+        firebaseDataInteractor.getMealByDateAndMealId(firebaseAuthInteractor.getCurrentUserId(), date, mealId, this);
     }
 
     private void setDateAndTime() {
@@ -147,17 +154,18 @@ public class EditMealPresenter implements IEditMealPresenter,
         else view.onMealDeleteFailed();
     }
 
-    /**{@inheritDoc}*/
+    /**{@inheritDoc}
+     * @param meal*/
     @Override
-    public void onGotNewMeal(String mealId, MealModel meal) {
-        add(mealId, meal);
+    public void onGotNewMeal(MealModelWithId meal) {
+        add(meal);
     }
 
     /**{@inheritDoc}*/
     @Override
-    public void onMealChanged(String mealId, MealModel meal) {
-        remove(mealId);
-        add(mealId, meal);
+    public void onMealChanged(MealModelWithId meal) {
+        remove(meal.getMealId());
+        add(meal);
     }
 
     /**{@inheritDoc}*/
@@ -166,23 +174,21 @@ public class EditMealPresenter implements IEditMealPresenter,
         remove(mealId);
     }
 
-    private void add(String mealId, MealModel meal) {
-        if (this.mealId == null || this.mealId.equals(mealId)) {
+    private void add(MealModelWithId meal) {
+        if (this.meal == null || this.meal.getMealId() == null || this.meal.getMealId().equals(meal.getMealId())) {
             this.meal = meal;
-            this.mealId = mealId;
 
             view.setUser("");
-            view.setEditDescriptionField(meal.getDescription());
-            view.setEditCaloriesField(String.valueOf(meal.getCalories()));
+            view.setEditDescriptionField(meal.getMeal().getDescription());
+            view.setEditCaloriesField(String.valueOf(meal.getMeal().getCalories()));
             view.setEditDateField(meal.getDate());
-            view.setEditTimeField(meal.getTime());
+            view.setEditTimeField(meal.getMeal().getTime());
         }
     }
 
     private void remove(String mealId) {
-        if (this.mealId != null && this.mealId.equals(mealId)) {
+        if (this.meal != null && this.meal.getMealId() != null && this.meal.getMealId().equals(mealId)) {
             this.meal = null;
-            this.mealId = null;
             intializeDateModel();
             view.setEditCaloriesField("");
             view.setEditDescriptionField("");
