@@ -13,4 +13,10 @@
         android:layout_height="wrap_content"
         android:hint="Expected calories"
         android:inputType="number" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name" />
 </LinearLayout>

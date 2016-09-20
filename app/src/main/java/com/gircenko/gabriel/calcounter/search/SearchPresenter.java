@@ -6,26 +6,19 @@ import android.content.Context;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-import com.gircenko.gabriel.calcounter.Constants;
-import com.gircenko.gabriel.calcounter.models.MealModel;
 import com.gircenko.gabriel.calcounter.models.StartOrEnd;
 import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.datePicker.DatePickerInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseDataInteractor;
-import com.gircenko.gabriel.calcounter.repos.firebase.database.OnMealDataListener;
+import com.gircenko.gabriel.calcounter.repos.firebase.database.OnIsAdminListener;
 import com.gircenko.gabriel.calcounter.repos.timePicker.TimePickerInteractor;
-
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * Created by Gabriel Gircenko on 19-Sep-16.
  */
 public class SearchPresenter implements ISearchPresenter,
-        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, OnIsAdminListener {
 
     private ISearchView view;
     private CalendarInteractor calendarInteractor;
@@ -33,11 +26,13 @@ public class SearchPresenter implements ISearchPresenter,
     private DatePickerInteractor datePickerInteractor;
     private TimePickerInteractor timePickerInteractor;
     private FirebaseAuthInteractor firebaseAuthInteractor;
+    private FirebaseDataInteractor firebaseDataInteractor;
 
     public SearchPresenter(ISearchView view) {
         this.view = view;
         this.calendarInteractor = new CalendarInteractor();
         this.firebaseAuthInteractor = new FirebaseAuthInteractor();
+        this.firebaseDataInteractor = new FirebaseDataInteractor();
     }
 
     @Override
@@ -78,6 +73,11 @@ public class SearchPresenter implements ISearchPresenter,
     }
 
     @Override
+    public void checkIfUserIsAdmin() {
+        firebaseDataInteractor.checkIfUserIsAdmin(firebaseAuthInteractor.getCurrentUserId(), this);
+    }
+
+    @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         calendarInteractor.setDate(startOrEnd, year, month, day);
         String date = calendarInteractor.getDate(startOrEnd);
@@ -93,5 +93,10 @@ public class SearchPresenter implements ISearchPresenter,
 
         if (startOrEnd == StartOrEnd.START) view.setTimeStart(time);
         else view.setTimeEnd(time);
+    }
+
+    @Override
+    public void isAdmin(boolean value) {
+        if (value) firebaseDataInteractor.getUserList();
     }
 }

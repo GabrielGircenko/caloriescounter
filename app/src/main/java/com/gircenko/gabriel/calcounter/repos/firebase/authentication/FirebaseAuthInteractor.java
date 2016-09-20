@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by Gabriel Gircenko on 15-Sep-16.
@@ -63,7 +64,8 @@ public class FirebaseAuthInteractor implements IFirebaseAuthInteractor {
     /**{@inheritDoc}*/
     @Override
     public String getCurrentUserId() {
-        return firebaseAuth.getCurrentUser().getUid();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        return user != null ? user.getUid() : "";
     }
 
     @Override

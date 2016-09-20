@@ -6,5 +6,6 @@ package com.gircenko.gabriel.calcounter.settings;
 public interface ISettingsPresenter {
 
     void saveExpectedCalories(String calories);
+    void saveName(String name);
     void getExpectedCalories();
 }

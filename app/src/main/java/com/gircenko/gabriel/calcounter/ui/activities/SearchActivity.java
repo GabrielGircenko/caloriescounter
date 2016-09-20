@@ -48,6 +48,7 @@ public class SearchActivity extends ActivityWithProgressDialog implements ISearc
         presenter = new SearchPresenter(this);
 
         presenter.initializeDates();
+        presenter.checkIfUserIsAdmin();
     }
 
     @Override
@@ -61,7 +62,7 @@ public class SearchActivity extends ActivityWithProgressDialog implements ISearc
         switch (item.getItemId()) {
             case R.id.action_search:
                 Intent intent = new Intent(this, SearchResultActivity.class);
-                String userId = null;
+                String userId;
                 if (sp_user.getSelectedItem() != null && !sp_user.getSelectedItem().toString().isEmpty()) {
                     userId = sp_user.getSelectedItem().toString();
 

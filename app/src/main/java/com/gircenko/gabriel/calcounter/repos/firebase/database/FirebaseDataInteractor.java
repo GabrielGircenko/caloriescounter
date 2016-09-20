@@ -25,11 +25,13 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
     // tables
     private final String USERS = "Users";
     private final String MEALS = "Meals";
-    private final String EXPECTED = "ExpectedCal";
 
     // fields
     private final String DATE = "date";
     private final String UID = "userId";
+    private final String ADMIN = "isAdmin";
+    private final String EXPECTED = "expectedCal";
+    private final String NAME = "name";
 
     private final String TAG = "FirebaseDataInteractor";
 
@@ -70,6 +72,27 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
                 listener.onDeleteSuccess(databaseError == null);
             }
         });
+    }
+
+    @Override
+    public void checkIfUserIsAdmin(String userId, final OnIsAdminListener listener) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference(USERS).child(userId).child(MEALS).child(ADMIN);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.isAdmin(dataSnapshot.getValue() != null);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.isAdmin(false);
+            }
+        });
+    }
+
+    @Override
+    public void getUserList() {
+        //  TODO
     }
 
     /**{@inheritDoc}*/
@@ -185,6 +208,36 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 listener.onExpectedCaloriesError();
+            }
+        });
+    }
+
+    /**{@inheritDoc}*/
+    @Override
+    public void saveName(String userId, String name, final  OnSaveNameListener listener) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference(USERS).child(userId).child(NAME);
+        databaseReference.setValue(name, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                listener.onSuccess(databaseError == null);
+            }
+        });
+    }
+
+    /**{@inheritDoc}*/
+    @Override
+    public void getName(String userId, final OnNameRetrievedListener listener) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference(USERS).child(userId).child(NAME);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) listener.onNameRetrieved(dataSnapshot.getValue().toString());
+                else listener.onNameError();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onNameError();
             }
         });
     }

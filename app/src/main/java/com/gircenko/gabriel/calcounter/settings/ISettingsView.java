@@ -8,4 +8,5 @@ public interface ISettingsView {
     void wrongInput();
     void onSuccess(boolean isSuccess);
     void setExpectedCalories(String expectedCalories);
+    void setName(String name);
 }

@@ -21,6 +21,8 @@ public class SettingsActivity extends ActivityWithProgressDialog implements ISet
 
     @BindView(R.id.et_expected_calories)
     EditText et_expected_calories;
+    @BindView(R.id.et_name)
+    EditText et_name;
 
     private SettingsPresenter presenter;
 
@@ -47,6 +49,10 @@ public class SettingsActivity extends ActivityWithProgressDialog implements ISet
                 showProgressDialog("Saving... Please, wait.");
                 String expectedCalories = et_expected_calories.getText().toString();
                 presenter.saveExpectedCalories(expectedCalories);
+
+                showProgressDialog("Saving... Please, wait.");
+                String name = et_name.getText().toString();
+                presenter.saveName(name);
                 return true;
 
             default:
@@ -65,7 +71,6 @@ public class SettingsActivity extends ActivityWithProgressDialog implements ISet
     public void onSuccess(boolean isSuccess) {
         if (isSuccess) {
             dismissProgressDialogAndShowToast("Saved successfully.");
-            finish();
 
         } else {
             dismissProgressDialogAndShowToast("Save unsuccessful. Please, try again.");
@@ -76,5 +81,11 @@ public class SettingsActivity extends ActivityWithProgressDialog implements ISet
     @Override
     public void setExpectedCalories(String expectedCalories) {
         et_expected_calories.setText(expectedCalories);
+    }
+
+    /**{@inheritDoc}*/
+    @Override
+    public void setName(String name) {
+        et_name.setText(name);
     }
 }

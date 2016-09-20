@@ -16,4 +16,6 @@ public interface ISearchPresenter {
     void editTime(Context context, StartOrEnd startOrEnd);
 
     String getCurrentUser();
+
+    void checkIfUserIsAdmin();
 }
