@@ -28,6 +28,7 @@ public class SearchResultActivity extends ActivityWithProgressDialog implements 
 
     private SearchResultPresenter presenter;
     private CaloriesWithHeadersListAdapter adapter;
+    private String userId;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class SearchResultActivity extends ActivityWithProgressDialog implements 
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(SearchResultActivity.this, EditMealActivity.class);
                 MealModelWithId meal = (MealModelWithId) adapterView.getItemAtPosition(i);
+                intent.putExtra(Constants.BUNDLE_KEY_UID, userId);
                 intent.putExtra(Constants.BUNDLE_KEY_MEAL_ID, meal.getMealId());
                 intent.putExtra(Constants.BUNDLE_KEY_DATE, meal.getDate());
                 startActivity(intent);
@@ -53,7 +55,7 @@ public class SearchResultActivity extends ActivityWithProgressDialog implements 
         // TODO move this to presenter
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            String userId = bundle.getString(Constants.BUNDLE_KEY_UID);
+            userId = bundle.getString(Constants.BUNDLE_KEY_UID);
             String dateStart = bundle.getString(Constants.BUNDLE_KEY_DATE_START);
             String dateEnd = bundle.getString(Constants.BUNDLE_KEY_DATE_END);
             String timeStart = bundle.getString(Constants.BUNDLE_KEY_TIME_START);

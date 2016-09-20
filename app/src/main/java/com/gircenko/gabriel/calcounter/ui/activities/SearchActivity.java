@@ -2,12 +2,9 @@ package com.gircenko.gabriel.calcounter.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -16,6 +13,7 @@ import com.gircenko.gabriel.calcounter.R;
 import com.gircenko.gabriel.calcounter.models.StartOrEnd;
 import com.gircenko.gabriel.calcounter.search.ISearchView;
 import com.gircenko.gabriel.calcounter.search.SearchPresenter;
+import com.gircenko.gabriel.calcounter.ui.adapters.UserSpinnerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,12 +36,17 @@ public class SearchActivity extends ActivityWithProgressDialog implements ISearc
     TextView tv_time_end;
 
     private SearchPresenter presenter;
+    private UserSpinnerAdapter spinnerArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+
+        spinnerArrayAdapter = new UserSpinnerAdapter(this, android.R.layout.simple_spinner_item);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_user.setAdapter(spinnerArrayAdapter);
 
         presenter = new SearchPresenter(this);
 
@@ -64,7 +67,7 @@ public class SearchActivity extends ActivityWithProgressDialog implements ISearc
                 Intent intent = new Intent(this, SearchResultActivity.class);
                 String userId;
                 if (sp_user.getSelectedItem() != null && !sp_user.getSelectedItem().toString().isEmpty()) {
-                    userId = sp_user.getSelectedItem().toString();
+                    userId = spinnerArrayAdapter.getUserId(sp_user.getSelectedItemPosition());
 
                 } else {
                     userId = presenter.getCurrentUser();
@@ -101,6 +104,12 @@ public class SearchActivity extends ActivityWithProgressDialog implements ISearc
     @Override
     public void setTimeEnd(String time) {
         tv_time_end.setText(time);
+    }
+
+    @Override
+    public void addUserToSpinner(String userId, String name) {
+        sp_user.setVisibility(View.VISIBLE);
+        spinnerArrayAdapter.addItem(userId, name);
     }
 
     @OnClick(R.id.tv_date_start)

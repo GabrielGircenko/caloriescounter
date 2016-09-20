@@ -16,9 +16,11 @@ public interface IEditMealPresenter {
 
     void editTime(Context context);
 
-    void attemptToSaveMeal(String user, String description, String calories, String date, String time);
+    void attemptToSaveMeal(String description, String calories, String date, String time);
 
     void attemptToDeleteMeal();
 
-    void getMealByDateAndMealId(String date, String mealId);
+    void getMeal(String date, String mealId);
+
+    void getMeal(String userId, String date, String mealId);
 }

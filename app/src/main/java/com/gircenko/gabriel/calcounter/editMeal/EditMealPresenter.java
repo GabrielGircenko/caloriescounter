@@ -31,6 +31,7 @@ public class EditMealPresenter implements IEditMealPresenter,
     private DatePickerInteractor datePickerInteractor;
     private TimePickerInteractor timePickerInteractor;
     private MealModelWithId meal;
+    private String userId;
 
     public EditMealPresenter(IEditMealView view) {
         this.view = view;
@@ -71,7 +72,7 @@ public class EditMealPresenter implements IEditMealPresenter,
 
     /**{@inheritDoc}*/
     @Override
-    public void attemptToSaveMeal(String userId, String description, String calories, String date, String time) {
+    public void attemptToSaveMeal(String description, String calories, String date, String time) {
         if (calories.isEmpty() || date.isEmpty() || time.isEmpty()) {
             view.onMealSaveFailedDueToIncorrectInput();
             return;
@@ -90,7 +91,7 @@ public class EditMealPresenter implements IEditMealPresenter,
             meal.setMeal(mealModel);
         }
 
-        if (userId.isEmpty()) {
+        if (userId == null || userId.isEmpty()) {
             userId = firebaseAuthInteractor.getCurrentUserId();
         }
 
@@ -105,20 +106,33 @@ public class EditMealPresenter implements IEditMealPresenter,
     /**{@inheritDoc}*/
     @Override
     public void attemptToDeleteMeal() {
-        if (meal != null && meal.getMealId() != null) {
-            firebaseDataInteractor.deleteMeal(firebaseAuthInteractor.getCurrentUserId(), meal.getDate(), meal.getMealId(), this);
+        if (meal != null && meal.getMealId() != null && userId != null) {
+            firebaseDataInteractor.deleteMeal(userId, meal.getDate(), meal.getMealId(), this);
         }
     }
 
     @Override
-    public void getMealByDateAndMealId(String date, String mealId) {
+    public void getMeal(String date, String mealId) {
+        userId = firebaseAuthInteractor.getCurrentUserId();
         if (meal == null) {
             meal = new MealModelWithId(null, null, null);
         }
 
         meal.setMealId(mealId);
         meal.setDate(date);
-        firebaseDataInteractor.getMealByDateAndMealId(firebaseAuthInteractor.getCurrentUserId(), date, mealId, this);
+        firebaseDataInteractor.getMealByDateAndMealId(userId, date, mealId, this);
+    }
+
+    @Override
+    public void getMeal(String userId, String date, String mealId) {
+        this.userId = userId;
+        if (meal == null) {
+            meal = new MealModelWithId(null, null, null);
+        }
+
+        meal.setMealId(mealId);
+        meal.setDate(date);
+        firebaseDataInteractor.getMealByDateAndMealId(userId, date, mealId, this);
     }
 
     private void setDateAndTime() {

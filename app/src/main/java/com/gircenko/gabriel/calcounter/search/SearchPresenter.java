@@ -3,6 +3,7 @@ package com.gircenko.gabriel.calcounter.search;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -11,14 +12,19 @@ import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.datePicker.DatePickerInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.authentication.FirebaseAuthInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseDataInteractor;
+import com.gircenko.gabriel.calcounter.repos.firebase.database.OnGetUserListListener;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.OnIsAdminListener;
 import com.gircenko.gabriel.calcounter.repos.timePicker.TimePickerInteractor;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Gabriel Gircenko on 19-Sep-16.
  */
 public class SearchPresenter implements ISearchPresenter,
-        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, OnIsAdminListener {
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, OnIsAdminListener, OnGetUserListListener {
 
     private ISearchView view;
     private CalendarInteractor calendarInteractor;
@@ -97,6 +103,16 @@ public class SearchPresenter implements ISearchPresenter,
 
     @Override
     public void isAdmin(boolean value) {
-        if (value) firebaseDataInteractor.getUserList();
+        if (value) firebaseDataInteractor.getUserList(this);
+    }
+
+    @Override
+    public void onChildAdded(String userId, String name) {
+        // TODO
+        if (name == null || name.isEmpty()) {
+            name = "John Doe";
+        }
+
+        view.addUserToSpinner(userId, name);
     }
 }

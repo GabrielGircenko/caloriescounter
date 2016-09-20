@@ -9,4 +9,5 @@ public interface ISearchView {
     void setDateEnd(String date);
     void setTimeStart(String time);
     void setTimeEnd(String time);
+    void addUserToSpinner(String userId, String name);
 }

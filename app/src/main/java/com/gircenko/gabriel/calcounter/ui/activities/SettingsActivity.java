@@ -63,7 +63,7 @@ public class SettingsActivity extends ActivityWithProgressDialog implements ISet
     /**{@inheritDoc}*/
     @Override
     public void wrongInput() {
-        dismissProgressDialogAndShowToast("Please, enter expected calories.");
+        dismissProgressDialogAndShowToast(null);
     }
 
     /**{@inheritDoc}*/

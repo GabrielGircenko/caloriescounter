@@ -5,6 +5,7 @@ import com.gircenko.gabriel.calcounter.repos.calendar.CalendarInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.FirebaseDataInteractor;
 import com.gircenko.gabriel.calcounter.repos.firebase.database.OnMealListDataListener;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +44,16 @@ public class SearchResultPresenter implements ISearchResultPresenter, OnMealList
     @Override
     public void onMealsChanged(List<MealModelWithId> meals) {
         if (!meals.isEmpty() && calendarInteractor.isDateInRange(meals.get(0).getDate(), dateStart, dateEnd)) {
+            List<MealModelWithId> mealsToRemove = new ArrayList<>();
             Iterator<MealModelWithId> iterator = meals.iterator();
             while (iterator.hasNext()) {
                 MealModelWithId meal = iterator.next();
                 if (!calendarInteractor.isTimeInRange(meal.getMeal().getTime(), timeStart, timeEnd)) {
-                    meals.remove(meal);
+                    mealsToRemove.add(meal);
                 }
             }
 
+            meals.removeAll(mealsToRemove);
             if (!meals.isEmpty()) {
                 view.addMeals(meals);
             }

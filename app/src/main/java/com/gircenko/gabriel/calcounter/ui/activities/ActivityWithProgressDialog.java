@@ -34,6 +34,6 @@ public abstract class ActivityWithProgressDialog extends AppCompatActivity {
 
     protected void dismissProgressDialogAndShowToast(String toastMessage) {
         progressDialog.dismiss();
-        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
+        if (toastMessage != null) Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
     }
 }

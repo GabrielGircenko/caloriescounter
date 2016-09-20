@@ -39,7 +39,7 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
          firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
-    // TODO add date parameter
+
     @Override
     public void saveMeal(String userId, String date, MealModel meal, final OnEditMealListener listener) {
         DatabaseReference databaseReference = firebaseDatabase.getReference(USERS).child(userId).child(MEALS).child(date);
@@ -76,11 +76,12 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
 
     @Override
     public void checkIfUserIsAdmin(String userId, final OnIsAdminListener listener) {
-        DatabaseReference databaseReference = firebaseDatabase.getReference(USERS).child(userId).child(MEALS).child(ADMIN);
+        DatabaseReference databaseReference = firebaseDatabase.getReference(USERS).child(userId).child(ADMIN);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                listener.isAdmin(dataSnapshot.getValue() != null);
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) listener.isAdmin(dataSnapshot.getValue(Boolean.class));
+                else listener.isAdmin(false);
             }
 
             @Override
@@ -91,8 +92,34 @@ public class FirebaseDataInteractor implements IFirebaseDataInteractor {
     }
 
     @Override
-    public void getUserList() {
-        //  TODO
+    public void getUserList(final OnGetUserListListener listener) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference(USERS);
+        databaseReference.orderByKey().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                listener.onChildAdded(dataSnapshot.getKey(), dataSnapshot.child(NAME).getValue(String.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**{@inheritDoc}*/

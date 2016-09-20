@@ -7,7 +7,7 @@ import com.gircenko.gabriel.calcounter.models.MealModel;
  */
 public interface IFirebaseDataInteractor {
 
-    void getUserList();
+    void getUserList(OnGetUserListListener listener);
     void getMealsByUser(String userId, OnMealListDataListener listener);
     void getMealsByUserAndDate(String userId, String date, OnMealListDataListener listener);
     void getMealByDateAndMealId(String userId, String date, String mealId, OnMealDataListener listener);

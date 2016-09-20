@@ -42,11 +42,17 @@ public class EditMealActivity extends ActivityWithProgressDialog implements IEdi
         presenter = new EditMealPresenter(this);
 
         // TODO move this to presenter
+        String userId = getIntent().getStringExtra(Constants.BUNDLE_KEY_UID);
         String mealId = getIntent().getStringExtra(Constants.BUNDLE_KEY_MEAL_ID);
         String date = getIntent().getStringExtra(Constants.BUNDLE_KEY_DATE);
 
         if (mealId != null && date != null) {
-            presenter.getMealByDateAndMealId(date, mealId);
+            if (userId != null) {
+                presenter.getMeal(userId, date, mealId);
+
+            } else {
+                presenter.getMeal(date, mealId);
+            }
 
         } else {
             presenter.intializeDateModel();
@@ -74,7 +80,7 @@ public class EditMealActivity extends ActivityWithProgressDialog implements IEdi
                 String calories = et_calories.getText().toString();
                 String date = et_date.getText().toString();
                 String time = et_time.getText().toString();
-                presenter.attemptToSaveMeal("", description, calories, date, time);
+                presenter.attemptToSaveMeal(description, calories, date, time);
                 return true;
 
             default:
