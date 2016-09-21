@@ -68,13 +68,11 @@ public class MainActivity extends AppCompatActivity implements IMainView, OnCalo
 
     /**{@inheritDoc}*/
     @OnClick(R.id.fab)
-    @Override
     public void fabClicked() {
         startActivity(new Intent(this, EditMealActivity.class));
     }
 
     /**{@inheritDoc}*/
-    @Override
     public void logoutClicked() {
         presenter.signOut();
         finish();
